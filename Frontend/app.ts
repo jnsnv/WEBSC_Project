@@ -16,11 +16,11 @@
 */
 
 // Settings:
-let restServer: string = "http://localhost:80/21WS/Pr/Backend/serviceHandler.php";
-$.getJSON(restServer,
-          {'method':'queryPersons'},
-          function( data:object ) {
-              $('#mainpart').text(JSON.stringify(data));
-    });
+// let restServer: string = "http://localhost:80/21WS/Pr/Backend/serviceHandler.php";
+// $.getJSON(restServer,
+//           {'method':'queryPersons'},
+//           function( data:object ) {
+//               $('#mainpart').text(JSON.stringify(data));
+//     });
    
 

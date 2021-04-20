@@ -1,4 +1,3 @@
-"use strict";
 /*
    Achtung - wichtige Hinweise:
    -----------------------------------------------------------------------------
@@ -12,10 +11,12 @@
                 Server: http://localhost:80/... )
       --> dann muss für den Server angegeben werden, dass er das Ergebnis ausliefern darf
       --> Erstellen einer .htaccess - Datei im Verzeichnis der anzusprechenden PHP-Datei mit folgendem Inhalt:
-          Header set Access-Control-Allow-Origin "*"
+             Header set Access-Control-Allow-Origin "*"
 */
 // Settings:
-var restServer = "http://localhost:80/21WS/Pr/Backend/serviceHandler.php";
-$.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
-    $('#mainpart').text(JSON.stringify(data));
-});
+// let restServer: string = "http://localhost:80/21WS/Pr/Backend/serviceHandler.php";
+// $.getJSON(restServer,
+//           {'method':'queryPersons'},
+//           function( data:object ) {
+//               $('#mainpart').text(JSON.stringify(data));
+//     });
