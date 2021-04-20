@@ -20,3 +20,4 @@
 //           function( data:object ) {
 //               $('#mainpart').text(JSON.stringify(data));
 //     });
+var number = 1;
