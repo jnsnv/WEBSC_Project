@@ -23,4 +23,5 @@
 //               $('#mainpart').text(JSON.stringify(data));
 //     });
    
+var number :number = 1;
 
