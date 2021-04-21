@@ -15,18 +15,9 @@ class SimpleLogic
     {
         switch ($method) {
 
-            case "queryPersons":
-                $res = $this->dh->queryPersons();
+            case "getAppointments":
+                $res = $this->dh->getAppointments();
                 break;
-
-            case "queryPersonById":
-                $res = $this->dh->queryPersonById($param);
-                break;
-
-            case "queryPersonByName":
-                $res = $this->dh->queryPersonByName($param);
-                break;
-
             default:
                 $res = null;
                 break;

@@ -16,12 +16,12 @@
 */
 
 // Settings:
-let restServer: string = "http://localhost:80/21WS/Pr/Backend/serviceHandler.php";
+let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
  $.getJSON(restServer,
-         {'method':'queryPersons'},
-          function( data:object ) {
-               $('#mainpart').text(JSON.stringify(data));
+         {'method':'getAppointments'},
+          function(data:object) {
+               console.log(data);
      });
    
-var number :number = 1;
+
 

@@ -14,8 +14,7 @@
              Header set Access-Control-Allow-Origin "*"
 */
 // Settings:
-var restServer = "http://localhost:80/21WS/Pr/Backend/serviceHandler.php";
-$.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
-    $('#mainpart').text(JSON.stringify(data));
+var restServer = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
+$.getJSON(restServer, { 'method': 'getAppointments' }, function (data) {
+    console.log(data);
 });
-var number = 1;
