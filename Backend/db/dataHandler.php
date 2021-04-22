@@ -30,7 +30,7 @@ class DataHandler
         $stmt->execute();
         $row = $stmt->get_result();
         $data = array();
-
+        
         while ($result = $row->fetch_assoc()){
             $data[] = $result;
         }
@@ -38,13 +38,8 @@ class DataHandler
         if(!empty($data)){
             return $data;
         }
-        else
-        {
-            return "no appointments";
-        }
 
         $stmt->close();
-
     }
 /*
     public function queryPersons()
