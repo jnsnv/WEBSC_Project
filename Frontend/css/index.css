@@ -93,20 +93,9 @@ wrapper-main::-webkit-scrollbar-thumb {
     flex-direction: column;
     border-bottom: 2px solid;
     align-items: flex-start;
+    min-height: 50px;
+}
 
-}
-.item1{
-    min-height: 50px;
-}
-.item2{
-    min-height: 50px;
-}
-.item3{
-    min-height: 50px;
-}
-.item4{
-    min-height: 50px;
-}
 
 .title{
     font-size: 17px;

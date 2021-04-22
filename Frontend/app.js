@@ -16,5 +16,23 @@
 // Settings:
 var restServer = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
 $.getJSON(restServer, { 'method': 'getAppointments' }, function (data) {
+    $.each(data, function (key, value) {
+        var newItemBox = document.createElement("div");
+        newItemBox.setAttribute("class", "item");
+        newItemBox.setAttribute("id", key.toString());
+        $(".wrapper-main").append(newItemBox);
+        var newTitle = document.createElement("p");
+        var newDate = document.createElement("p");
+        var newUser = document.createElement("p");
+        newTitle.setAttribute("class", "title");
+        newDate.setAttribute("class", "date");
+        newUser.setAttribute("class", "participant");
+        newTitle.innerHTML = value.title;
+        newDate.innerHTML = value.date;
+        newUser.innerHTML = value.user;
+        $("#" + key.toString()).append(newTitle);
+        $("#" + key.toString()).append(newDate);
+        $("#" + key.toString()).append(newUser);
+    });
     console.log(data);
 });
