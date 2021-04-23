@@ -30,15 +30,46 @@ let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Pro
          {'method':'getAppointments'},
           function(data: Array<Data>) {
                $.each(data,  function(key, value){
-
+                  let form = document.getElementById("myform")
+                  form!.style.display="none";
                   $("#newappointment").on("click", function(){
                      $(this).animate({
-                        height:"+150",
-                        width:"+150",
-                        backgroundColor:'#4E1402'
+                        height:"+230.15",
+                        width:"+400"
+                     
                      }, 500, function(){
                         console.log("animation complete");
                      })
+                    
+                     let app = document.getElementById("newappointment");
+                     app!.style.backgroundColor = "white";
+                     document.getElementById("pimg")!.style.display= "none";
+                     app!.style.borderRadius= "3px";
+                     form!.style.display = "block";
+
+                     let title = document.getElementById("title");
+                     title!.style.borderRadius = "5px";
+                     title!.style.border = "1px solid #ccc";
+                     title!.style.borderColor = "black";
+
+                     let location =  document.getElementById("location");
+                     location!.style.borderRadius = "5px";
+                     location!.style.border = "1px solid #ccc";
+                     location!.style.borderColor = "black";
+
+                     let notice =  document.getElementById("notice")
+                     notice!.style.borderRadius = "5px";
+                     notice!.style.border = "1px solid #ccc";
+                     notice!.style.borderColor = "black";
+                     
+                     app!.style.padding = "8px"
+
+                     app!.style.marginTop = "8px";
+                     app!.style.marginBottom = "8px";
+                     let button = document.getElementById("submit");
+                     button!.style.marginLeft = "15px"
+                     //document.getElementById("myform");
+                     
                   })
 
                   let newItemBox = document.createElement("div");

@@ -23,6 +23,10 @@ body{
   
 }
 
+#pimg{
+    width:30px;
+    height:30px;
+}
 
 ul li{
     display: inline;

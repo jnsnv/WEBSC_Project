@@ -17,14 +17,38 @@
 var restServer = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
 $.getJSON(restServer, { 'method': 'getAppointments' }, function (data) {
     $.each(data, function (key, value) {
+        var form = document.getElementById("myform");
+        form.style.display = "none";
         $("#newappointment").on("click", function () {
             $(this).animate({
-                height: "+150",
-                width: "+150",
-                backgroundColor: '#4E1402'
+                height: "+230.15",
+                width: "+400"
             }, 500, function () {
                 console.log("animation complete");
             });
+            var app = document.getElementById("newappointment");
+            app.style.backgroundColor = "white";
+            document.getElementById("pimg").style.display = "none";
+            app.style.borderRadius = "3px";
+            form.style.display = "block";
+            var title = document.getElementById("title");
+            title.style.borderRadius = "5px";
+            title.style.border = "1px solid #ccc";
+            title.style.borderColor = "black";
+            var location = document.getElementById("location");
+            location.style.borderRadius = "5px";
+            location.style.border = "1px solid #ccc";
+            location.style.borderColor = "black";
+            var notice = document.getElementById("notice");
+            notice.style.borderRadius = "5px";
+            notice.style.border = "1px solid #ccc";
+            notice.style.borderColor = "black";
+            app.style.padding = "8px";
+            app.style.marginTop = "8px";
+            app.style.marginBottom = "8px";
+            var button = document.getElementById("submit");
+            button.style.marginLeft = "15px";
+            //document.getElementById("myform");
         });
         var newItemBox = document.createElement("div");
         newItemBox.setAttribute("class", "item");
