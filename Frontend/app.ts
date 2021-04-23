@@ -62,7 +62,7 @@ let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Pro
                   $("#" + key.toString()).append(newUser);
 
                });
-               console.log(data[1].title);
+               console.log(data[0].title);
      });
 
    
