@@ -9,13 +9,16 @@ isset($_GET["param"]) ? $param = $_GET["param"] : false;
 
 
 $logic = new SimpleLogic();
-$result = $logic->handleRequest($method, $param);
-if ($result == null) {
-    response("GET", 400, null);
-} else {
-    response("GET", 200, $result);
-}
 
+if(isset($_GET["method"])){
+    $result = $logic->handleRequest($method, $param);
+    if ($result == null) {
+        response("GET", 400, null);
+    } else {
+        response("GET", 200, $result);
+    }
+}
+   
 
 function response($method, $httpStatus, $data)
 {
