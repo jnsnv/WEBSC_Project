@@ -31,6 +31,16 @@ let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Pro
           function(data: Array<Data>) {
                $.each(data,  function(key, value){
 
+                  $("#newappointment").on("click", function(){
+                     $(this).animate({
+                        height:"+150",
+                        width:"+150",
+                        backgroundColor:'#4E1402'
+                     }, 500, function(){
+                        console.log("animation complete");
+                     })
+                  })
+
                   let newItemBox = document.createElement("div");
                   newItemBox.setAttribute("class", "item");
                   newItemBox.setAttribute("id", key.toString());
@@ -53,7 +63,11 @@ let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Pro
 
                });
                console.log(data);
+
+
+
      });
+
    
 
 
