@@ -39,24 +39,31 @@
 
     <div class="testdiv">
         <h4 class="Termine">Ihre Termine:</h1>
-           
+
             <div class="wrapper-main">
                 <div class="newA" id="newappointment">
-                    <form action="", id="myform">
+                    <img id="mimg" src="img/minus.png">
+                    <form action="" , id="myform">
+
+                        <h4>Create an appointment!</h4>
                         <label for="Title">Title:</label>
-                        <input type="text" id="title" name="title"><br><br>
-        
-                        <label for="Title">Location:</label>
-                        <input type="text" id="location" name="location"><br><br>
-        
-                        <label for="Title">Notice:</label>
-                        <input type="text" id="notice" name="notice"><br><br>
-        
-        
-                        <button type="submit" id="submit" formaction="index.html" value="Submit">Continue</button>
-        
+                        <input type="text" id="title" name="title" required><br><br>
+
+                        <label for="loc">Location:</label>
+                        <input type="text" id="location" name="location" required><br><br>
+
+                        <label for="notice">Notice:</label>
+                        <input type="text" id="notice" name="notice" required><br><br>
+
+                        <label for="date">Date:</label>
+                        <input type="date" id="start" required>
+                        <br>
+
+                        <button type="submit" id="submit" formaction="index.html" value="Submit">Go!</button>
+
                     </form>
                     <img src="img/plus" id="pimg">
+
                 </div>
                 <div class="item">
                     <p class="title">Title</h5>
