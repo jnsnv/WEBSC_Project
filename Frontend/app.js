@@ -43,5 +43,5 @@ $.getJSON(restServer, { 'method': 'getAppointments' }, function (data) {
         $("#" + key.toString()).append(newDate);
         $("#" + key.toString()).append(newUser);
     });
-    console.log(data);
+    console.log(data[1].title);
 });
