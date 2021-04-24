@@ -43,6 +43,7 @@ $(() => {
       url: "../Backend/serviceHandler.php",
       cache: false,
       data: {
+          method: "insertAppointment",
           title: title,
           location: location,
           exp: exp
@@ -69,27 +70,25 @@ $.getJSON(
   function (data: Array<Data>) {
     $.each(data, function (key, value) {
     
-      
-
       let newItemBox = document.createElement("div");
       newItemBox.setAttribute("class", "item");
       newItemBox.setAttribute("id", key.toString());
       $(".wrapper-main").append(newItemBox);
 
       let newTitle = document.createElement("p");
-      let newDate = document.createElement("p");
-      let newUser = document.createElement("p");
+      let newLocation = document.createElement("p");
+      let newExpiryDate = document.createElement("p");
 
       newTitle.setAttribute("class", "title");
-      newDate.setAttribute("class", "date");
-      newUser.setAttribute("class", "participant");
+      newLocation.setAttribute("class", "location");
+      newExpiryDate.setAttribute("class", "exp_date");
       newTitle.innerHTML = value.title;
-      newDate.innerHTML = value.date;
-      newUser.innerHTML = value.user;
+      newLocation.innerHTML = value.location;
+      newExpiryDate.innerHTML = value.expiry_date;
 
       $("#" + key.toString()).append(newTitle);
-      $("#" + key.toString()).append(newDate);
-      $("#" + key.toString()).append(newUser);
+      $("#" + key.toString()).append(newLocation);
+      $("#" + key.toString()).append(newExpiryDate);
     });
   }
 );

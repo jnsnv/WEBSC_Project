@@ -19,17 +19,25 @@ $(function () {
     form.style.display = "none";
     document.getElementById("mimg").style.display = "none";
 });
-$("#submit").on("click", function () { });
-$.ajax({
-    type: "GET",
-    url: "../serviceHandler.php",
-    cache: false,
-    data: { method: "queryPersonByName" },
-    dataType: "json",
-    success: function (response) {
-        $("#noOfentries").val(response.length);
-        $("#searchResult").show(1000).delay(1000).hide(1000);
-    }
+$("#submit").on("click", function () {
+    var title = $("#title").val();
+    var location = $("#location").val();
+    var exp = $("#exp").val();
+    $.ajax({
+        type: "POST",
+        url: "../Backend/serviceHandler.php",
+        cache: false,
+        data: {
+            method: "insertAppointment",
+            title: title,
+            location: location,
+            exp: exp
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log("hat funktioniert");
+        }
+    });
 });
 // ---Settings: GET JSON DATA FROM DATABASE---
 var restServer = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
@@ -40,17 +48,17 @@ $.getJSON(restServer, { method: "getAppointments" }, function (data) {
         newItemBox.setAttribute("id", key.toString());
         $(".wrapper-main").append(newItemBox);
         var newTitle = document.createElement("p");
-        var newDate = document.createElement("p");
-        var newUser = document.createElement("p");
+        var newLocation = document.createElement("p");
+        var newExpiryDate = document.createElement("p");
         newTitle.setAttribute("class", "title");
-        newDate.setAttribute("class", "date");
-        newUser.setAttribute("class", "participant");
+        newLocation.setAttribute("class", "location");
+        newExpiryDate.setAttribute("class", "exp_date");
         newTitle.innerHTML = value.title;
-        newDate.innerHTML = value.date;
-        newUser.innerHTML = value.user;
+        newLocation.innerHTML = value.location;
+        newExpiryDate.innerHTML = value.expiry_date;
         $("#" + key.toString()).append(newTitle);
-        $("#" + key.toString()).append(newDate);
-        $("#" + key.toString()).append(newUser);
+        $("#" + key.toString()).append(newLocation);
+        $("#" + key.toString()).append(newExpiryDate);
     });
 });
 //---GET JSON DATA END---

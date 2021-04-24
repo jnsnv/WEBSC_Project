@@ -11,7 +11,7 @@ class SimpleLogic
         $this->dh = new DataHandler();
     }
 
-    function handleRequest($method, $param)
+    function handleRequest($method, $param1, $param2, $param3)
     {
         switch ($method) {
 
