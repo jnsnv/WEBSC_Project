@@ -13,6 +13,7 @@
       --> Erstellen einer .htaccess - Datei im Verzeichnis der anzusprechenden PHP-Datei mit folgendem Inhalt:
              Header set Access-Control-Allow-Origin "*"
 */
+//document get ready
 
 interface Data {
   title: string;
@@ -23,9 +24,16 @@ interface Data {
   expiry_date: string;
 }
 
-// Settings:
-let restServer: string =
-  "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
+$(() => {
+  let form = document.getElementById("myform");
+  form!.style.display = "none";
+  document.getElementById("mimg")!.style.display = "none";
+});
+
+
+
+// ---Settings: GET JSON DATA FROM DATABASE---
+let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
 $.getJSON(
   restServer,
   { method: "getAppointments" },
@@ -56,11 +64,9 @@ $.getJSON(
     });
   }
 );
+//---GET JSON DATA END---
 
-let form = document.getElementById("myform");
-form!.style.display = "none";
-document.getElementById("mimg")!.style.display = "none";
-
+//---ANIMATION SECTION---
 function getBigger(){
   $("#newappointment").animate(
     {
@@ -75,41 +81,22 @@ function getBigger(){
   );
 
   let app = document.getElementById("newappointment");
-  app!.style.backgroundColor = "white";
   let pimg = document.getElementById("pimg");
-  pimg!.style.display = "none";
   let mimg = document.getElementById("mimg");
+  let button = document.getElementById("submit");
+  let form = document.getElementById("myform");
+
+ 
+  pimg!.style.display = "none";
   mimg!.style.display = "block";
-
-  app!.style.borderRadius = "3px";
+  
   form!.style.display = "block";
-
-  let title = document.getElementById("title");
-  title!.style.borderRadius = "5px";
-  title!.style.border = "1px solid #ccc";
-  title!.style.borderColor = "black";
-
-  let location = document.getElementById("location");
-  location!.style.borderRadius = "5px";
-  location!.style.border = "1px solid #ccc";
-  location!.style.borderColor = "black";
-
-
-  let date = document.getElementById("start");
-  date!.style.borderRadius = "5px";
-  date!.style.border = "1px solid #ccc";
-  date!.style.borderColor = "black";
-
-  let exp = document.getElementById("exp");
-  exp!.style.borderRadius = "5px";
-  exp!.style.border = "1px solid #ccc";
-  exp!.style.borderColor = "black";
-
+  app!.style.borderRadius = "3px";
   app!.style.padding = "8px";
   app!.style.marginTop = "8px";
   app!.style.marginBottom = "8px";
+  app!.style.backgroundColor = "white";
 
-  let button = document.getElementById("submit");
   button!.style.marginLeft = "15px";
   //document.getElementById("myform");
 }
@@ -144,11 +131,12 @@ $("#mimg").on("click", function () {
 
     newDate.type = "datetime-local";
     newDate.id = "start";
-    newDate.style.borderRadius = "5px";
-    newDate.style.border = "1px solid #ccc";
-    newDate.style.borderColor = "black";
+
+    newDate?.setAttribute("class", "form-control");
+    newDate!.required = true;
 
     date?.append(newDate);
 
 
   });
+//---ANIMATION SECTION END---
