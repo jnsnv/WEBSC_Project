@@ -56,16 +56,15 @@ $.getJSON(
     });
   }
 );
-getBigger();
 
 let form = document.getElementById("myform");
 form!.style.display = "none";
 document.getElementById("mimg")!.style.display = "none";
+
 function getBigger(){
-$("#pimg").on("click", function() {
   $("#newappointment").animate(
     {
-      height: "+310",
+      height: "+430",
       width: "+600",
     },
     500,
@@ -111,31 +110,27 @@ $("#pimg").on("click", function() {
   let button = document.getElementById("submit");
   button!.style.marginLeft = "15px";
   //document.getElementById("myform");
-
-
-
-});
 }
 
+// close form animation
 $("#mimg").on("click", function () {
   $("#newappointment").animate(
     {
-      height: "-310",
+      height: "-430",
       width: "-600",
     },
     500,
     function () {
         let newA = document.getElementById("newappointment");
         newA!.style.display ="none";
-      
+        let pimg = document.getElementById("pimg");
+        pimg!.style.display ="block";
     }
-    
   );
-  let pimg = document.getElementById("pimg");
-  pimg!.style.display ="block";
+})
+//open form animation
   $("#pimg").on("click", function () {
     let newA = document.getElementById("newappointment");
     getBigger();
     newA!.style.display ="block";
   })
-})
