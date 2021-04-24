@@ -148,7 +148,7 @@ $("#mimg").on("click", function () {
     newDate.style.border = "1px solid #ccc";
     newDate.style.borderColor = "black";
 
-    date?.append(newDate);
+    date!.append(newDate);
 
 
   });
