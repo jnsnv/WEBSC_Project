@@ -19,7 +19,19 @@ $(function () {
     form.style.display = "none";
     document.getElementById("mimg").style.display = "none";
 });
-// Settings: GET JSON DATA FROM DATABASE
+$("#submit").on("click", function () { });
+$.ajax({
+    type: "GET",
+    url: "../serviceHandler.php",
+    cache: false,
+    data: { method: "queryPersonByName" },
+    dataType: "json",
+    success: function (response) {
+        $("#noOfentries").val(response.length);
+        $("#searchResult").show(1000).delay(1000).hide(1000);
+    }
+});
+// ---Settings: GET JSON DATA FROM DATABASE---
 var restServer = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
 $.getJSON(restServer, { method: "getAppointments" }, function (data) {
     $.each(data, function (key, value) {
@@ -41,7 +53,8 @@ $.getJSON(restServer, { method: "getAppointments" }, function (data) {
         $("#" + key.toString()).append(newUser);
     });
 });
-// GET JSON DATA END
+//---GET JSON DATA END---
+//---ANIMATION SECTION---
 function getBigger() {
     $("#newappointment").animate({
         height: "330px",
@@ -92,5 +105,6 @@ $("#dateplus").on("click", function () {
     newDate.id = "start";
     newDate === null || newDate === void 0 ? void 0 : newDate.setAttribute("class", "form-control");
     newDate.required = true;
-    date === null || date === void 0 ? void 0 : date.append(newDate);
+    date.append(newDate);
 });
+//---ANIMATION SECTION END---

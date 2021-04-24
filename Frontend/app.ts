@@ -32,6 +32,35 @@ $(() => {
 
 
 
+  $("#submit").on("click", function(){
+    let title = $("#title").val(); 
+    let location = $("#location").val(); 
+    let exp = $("#exp").val(); 
+ 
+
+    $.ajax({
+      type: "POST",
+      url: "../Backend/serviceHandler.php",
+      cache: false,
+      data: {
+          title: title,
+          location: location,
+          exp: exp
+      },
+      dataType: "json",
+      success: function (response) {
+          console.log("hat funktioniert");
+         
+      }
+      
+  });
+  })
+
+
+
+
+
+
 // ---Settings: GET JSON DATA FROM DATABASE---
 let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
 $.getJSON(
@@ -140,3 +169,4 @@ $("#mimg").on("click", function () {
 
   });
 //---ANIMATION SECTION END---
+
