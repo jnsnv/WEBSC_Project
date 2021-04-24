@@ -8,7 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Custom styles for this template -->
     <link type="text/css" rel="stylesheet" href="css/index.css" />
 
@@ -19,6 +19,9 @@
     <!-- Custom JavaScript -->
     <script src="app.js" defer></script>
 
+    <!-- Lato Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
 </head>
 
@@ -31,24 +34,26 @@
                     <li><a class="navbar-brand" href="poll.html">Calendar</a></li>
                     <li><a class="navbar-brand" href="poll.html">Create Poll</a></li>
                     <li><a class="navbar-brand" href="poll.html">Create Appointment</a></li>
-
+    
                 </ul>
             </nav>
         </div>
     </header>
-
     <div class="testdiv">
-        <h4 class="Termine">Ihre Termine:</h1>
-
+        <h4 class="Termine">Appointments</h1>
             <div class="wrapper-main">
                 <div class="newA" id="newappointment">
-                    <img id="mimg" src="img/minus.png">
-                    
+                    <div class="minus">
+                        <img id="mimg" src="img/minus.png">
+                    </div>
                     <form action="" , id="myform">
 
                         <h4>Create an appointment!</h4>
                         <label for="Title">Title:</label>
                         <input type="text" id="title" name="title" required><br><br>
+
+                        <label for="user">Username:</label>
+                        <input type="text" id="user" name="user" required><br><br>
 
                         <label for="loc">Location:</label>
                         <input type="text" id="location" name="location" required><br><br>
@@ -57,8 +62,12 @@
                         <input type="text" id="notice" name="notice" required><br><br>
 
                         <label for="date">Date:</label>
-                        <input type="date" id="start" required>
+                        <input type="date" id="start" required><br><br>
+
+                        <label for="exp">Expiry-Date:</label>
+                        <input type="date" id="exp" required>
                         <br>
+                        
 
                         <button type="submit" id="submit" formaction="index.html" value="Submit">Go!</button>
 
