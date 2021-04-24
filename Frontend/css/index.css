@@ -155,7 +155,6 @@ ul li{
 }
 .date{
     font-size: 15px;
-    margin-left: 8px;
 }
 
 .participant{
@@ -166,4 +165,13 @@ ul li{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+#dateplus{
+    width:30px;
+    height:30px;
+    cursor: pointer;
+}
+
+#newappointment{
+    max-height: 9999px;
 }

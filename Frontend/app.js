@@ -40,10 +40,11 @@ form.style.display = "none";
 document.getElementById("mimg").style.display = "none";
 function getBigger() {
     $("#newappointment").animate({
-        height: "+430",
-        width: "+600"
+        height: "330px",
+        width: "600px"
     }, 500, function () {
         console.log("animation complete");
+        $("#newappointment").css("height", "100%");
     });
     var app = document.getElementById("newappointment");
     app.style.backgroundColor = "white";
@@ -61,14 +62,14 @@ function getBigger() {
     location.style.borderRadius = "5px";
     location.style.border = "1px solid #ccc";
     location.style.borderColor = "black";
-    var notice = document.getElementById("notice");
-    notice.style.borderRadius = "5px";
-    notice.style.border = "1px solid #ccc";
-    notice.style.borderColor = "black";
     var date = document.getElementById("start");
     date.style.borderRadius = "5px";
     date.style.border = "1px solid #ccc";
     date.style.borderColor = "black";
+    var exp = document.getElementById("exp");
+    exp.style.borderRadius = "5px";
+    exp.style.border = "1px solid #ccc";
+    exp.style.borderColor = "black";
     app.style.padding = "8px";
     app.style.marginTop = "8px";
     app.style.marginBottom = "8px";
@@ -79,7 +80,7 @@ function getBigger() {
 // close form animation
 $("#mimg").on("click", function () {
     $("#newappointment").animate({
-        height: "-430",
+        height: "-330",
         width: "-600"
     }, 500, function () {
         var newA = document.getElementById("newappointment");
@@ -93,4 +94,15 @@ $("#pimg").on("click", function () {
     var newA = document.getElementById("newappointment");
     getBigger();
     newA.style.display = "block";
+});
+//add more dates
+$("#dateplus").on("click", function () {
+    var newDate = document.createElement("input");
+    var date = document.querySelector(".datebox");
+    newDate.type = "datetime-local";
+    newDate.id = "start";
+    newDate.style.borderRadius = "5px";
+    newDate.style.border = "1px solid #ccc";
+    newDate.style.borderColor = "black";
+    date === null || date === void 0 ? void 0 : date.append(newDate);
 });

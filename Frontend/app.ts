@@ -64,12 +64,13 @@ document.getElementById("mimg")!.style.display = "none";
 function getBigger(){
   $("#newappointment").animate(
     {
-      height: "+430",
-      width: "+600",
+      height: "330px",
+      width: "600px",
     },
     500,
     function () {
       console.log("animation complete");
+      $("#newappointment").css("height", "100%");
     }
   );
 
@@ -93,20 +94,21 @@ function getBigger(){
   location!.style.border = "1px solid #ccc";
   location!.style.borderColor = "black";
 
-  let notice = document.getElementById("notice");
-  notice!.style.borderRadius = "5px";
-  notice!.style.border = "1px solid #ccc";
-  notice!.style.borderColor = "black";
 
   let date = document.getElementById("start");
   date!.style.borderRadius = "5px";
   date!.style.border = "1px solid #ccc";
   date!.style.borderColor = "black";
 
-  app!.style.padding = "8px";
+  let exp = document.getElementById("exp");
+  exp!.style.borderRadius = "5px";
+  exp!.style.border = "1px solid #ccc";
+  exp!.style.borderColor = "black";
 
+  app!.style.padding = "8px";
   app!.style.marginTop = "8px";
   app!.style.marginBottom = "8px";
+
   let button = document.getElementById("submit");
   button!.style.marginLeft = "15px";
   //document.getElementById("myform");
@@ -116,7 +118,7 @@ function getBigger(){
 $("#mimg").on("click", function () {
   $("#newappointment").animate(
     {
-      height: "-430",
+      height: "-330",
       width: "-600",
     },
     500,
@@ -133,4 +135,20 @@ $("#mimg").on("click", function () {
     let newA = document.getElementById("newappointment");
     getBigger();
     newA!.style.display ="block";
-  })
+  });
+
+//add more dates
+  $("#dateplus").on("click", function () {
+    let newDate = document.createElement("input");
+    let date = document.querySelector(".datebox");
+
+    newDate.type = "datetime-local";
+    newDate.id = "start";
+    newDate.style.borderRadius = "5px";
+    newDate.style.border = "1px solid #ccc";
+    newDate.style.borderColor = "black";
+
+    date?.append(newDate);
+
+
+  });

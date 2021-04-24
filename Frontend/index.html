@@ -47,30 +47,26 @@
                         <img id="mimg" src="img/minus.png">
                     </div>
                     <form action="" , id="myform">
-
                         <h4>Create an appointment!</h4>
-                        <label for="Title">Title:</label>
-                        <input type="text" id="title" name="title" required><br><br>
-
-                        <label for="user">Username:</label>
-                        <input type="text" id="user" name="user" required><br><br>
-
-                        <label for="loc">Location:</label>
-                        <input type="text" id="location" name="location" required><br><br>
-
-                        <label for="notice">Notice:</label>
-                        <input type="text" id="notice" name="notice" required><br><br>
-
-                        <label for="date">Date:</label>
-                        <input type="date" id="start" required><br><br>
-
-                        <label for="exp">Expiry-Date:</label>
-                        <input type="date" id="exp" required>
-                        <br>
-                        
-
+                        <div class="title-box">
+                            <label for="Title">Title:</label>
+                            <input type="text" id="title" name="title" required><br><br>
+                        </div>
+                        <div class ="location-box">
+                            <label for="loc">Location:</label>
+                            <input type="text" id="location" name="location" required><br><br>
+                        </div>
+                        <div class="expiry_date-box">
+                            <label for="exp">Expiry-Date:</label>
+                            <input type="datetime-local" id="exp" required><br> <br>
+                        </div>
+                        <div class="datebox">
+                            <label for="date">Date:</label>
+                            <img id="dateplus" src="img/plus">
+                            <input type="datetime-local" id="start" required>
+                            <br>
+                        </div>
                         <button type="submit" id="submit" formaction="index.html" value="Submit">Go!</button>
-
                     </form>
                   
 
