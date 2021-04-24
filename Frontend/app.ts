@@ -1,4 +1,3 @@
-
 /*
    Achtung - wichtige Hinweise: 
    -----------------------------------------------------------------------------
@@ -16,55 +15,104 @@
 */
 
 interface Data {
-   title: string,
-   user: string,
-   location: string,
-   date: string,
-   time: string,
-   expiry_date: string
+  title: string;
+  user: string;
+  location: string;
+  date: string;
+  time: string;
+  expiry_date: string;
 }
 
 // Settings:
-let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
- $.getJSON(restServer,
-         {'method':'getAppointments'},
-          function(data: Array<Data>) {
-               $.each(data,  function(key, value){
+let restServer: string =
+  "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
+$.getJSON(
+  restServer,
+  { method: "getAppointments" },
+  function (data: Array<Data>) {
+    $.each(data, function (key, value) {
+      let form = document.getElementById("myform");
+      form!.style.display = "none";
+      document.getElementById("mimg")!.style.display = "none";
+      $("#newappointment").on("click", function () {
+        $(this).animate(
+          {
+            height: "+310",
+            width: "+600",
+          },
+          500,
+          function () {
+            console.log("animation complete");
+          }
+        );
 
-                  $("#newappointment").on("click", function(){
-                     $(this).animate({
-                        height:"+150",
-                        width:"+150",
-                        backgroundColor:'#4E1402'
-                     }, 500, function(){
-                        console.log("animation complete");
-                     })
-                  })
+        let app = document.getElementById("newappointment");
+        app!.style.backgroundColor = "white";
+        let pimg = document.getElementById("pimg");
+        pimg!.style.display = "none";
+        let mimg = document.getElementById("mimg");
+        mimg!.style.display = "block";
 
-                  let newItemBox = document.createElement("div");
-                  newItemBox.setAttribute("class", "item");
-                  newItemBox.setAttribute("id", key.toString());
-                  $(".wrapper-main").append(newItemBox);
+        app!.style.borderRadius = "3px";
+        form!.style.display = "block";
 
-                  let newTitle = document.createElement("p");
-                  let newDate = document.createElement("p");
-                  let newUser = document.createElement("p");
-                  
-                  newTitle.setAttribute("class", "title");
-                  newDate.setAttribute("class", "date");
-                  newUser.setAttribute("class", "participant");
-                  newTitle.innerHTML = value.title;
-                  newDate.innerHTML = value.date;
-                  newUser.innerHTML = value.user;
+        let title = document.getElementById("title");
+        title!.style.borderRadius = "5px";
+        title!.style.border = "1px solid #ccc";
+        title!.style.borderColor = "black";
 
-                  $("#" + key.toString()).append(newTitle);
-                  $("#" + key.toString()).append(newDate);
-                  $("#" + key.toString()).append(newUser);
+        let location = document.getElementById("location");
+        location!.style.borderRadius = "5px";
+        location!.style.border = "1px solid #ccc";
+        location!.style.borderColor = "black";
 
-               });
-               console.log(data[0].title);
-     });
+        let notice = document.getElementById("notice");
+        notice!.style.borderRadius = "5px";
+        notice!.style.border = "1px solid #ccc";
+        notice!.style.borderColor = "black";
 
-   
+        let date = document.getElementById("start");
+        date!.style.borderRadius = "5px";
+        date!.style.border = "1px solid #ccc";
+        date!.style.borderColor = "black";
 
+        app!.style.padding = "8px";
 
+        app!.style.marginTop = "8px";
+        app!.style.marginBottom = "8px";
+        let button = document.getElementById("submit");
+        button!.style.marginLeft = "15px";
+        //document.getElementById("myform");
+
+        mimg!.style.display = "block";
+        document.getElementById("mimg")!.onclick = function () {
+          document.getElementById("newappointment")!.style.display = "none";
+          if (document.getElementById("newappointment")!.style.display === "none") {
+            document.getElementById("pimg")!.style.display = "block"; //TODO
+          }
+        };
+    
+      });
+     
+      let newItemBox = document.createElement("div");
+      newItemBox.setAttribute("class", "item");
+      newItemBox.setAttribute("id", key.toString());
+      $(".wrapper-main").append(newItemBox);
+
+      let newTitle = document.createElement("p");
+      let newDate = document.createElement("p");
+      let newUser = document.createElement("p");
+
+      newTitle.setAttribute("class", "title");
+      newDate.setAttribute("class", "date");
+      newUser.setAttribute("class", "participant");
+      newTitle.innerHTML = value.title;
+      newDate.innerHTML = value.date;
+      newUser.innerHTML = value.user;
+
+      $("#" + key.toString()).append(newTitle);
+      $("#" + key.toString()).append(newDate);
+      $("#" + key.toString()).append(newUser);
+    });
+  }
+);
