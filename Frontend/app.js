@@ -15,7 +15,9 @@
 */
 // Settings:
 var restServer = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
-$.getJSON(restServer, { method: "getAppointments" }, function (data) {
+$.getJSON(restServer, {
+    method: "getAppointments"
+}, function (data) {
     $.each(data, function (key, value) {
         var newItemBox = document.createElement("div");
         newItemBox.setAttribute("class", "item");
@@ -39,6 +41,7 @@ getBigger();
 var form = document.getElementById("myform");
 form.style.display = "none";
 document.getElementById("mimg").style.display = "none";
+
 function getBigger() {
     $("#pimg").on("click", function () {
         $("#newappointment").animate({
