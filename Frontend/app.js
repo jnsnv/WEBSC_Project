@@ -17,54 +17,6 @@
 var restServer = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
 $.getJSON(restServer, { method: "getAppointments" }, function (data) {
     $.each(data, function (key, value) {
-        var form = document.getElementById("myform");
-        form.style.display = "none";
-        document.getElementById("mimg").style.display = "none";
-        $("#newappointment").on("click", function () {
-            $(this).animate({
-                height: "+310",
-                width: "+600"
-            }, 500, function () {
-                console.log("animation complete");
-            });
-            var app = document.getElementById("newappointment");
-            app.style.backgroundColor = "white";
-            var pimg = document.getElementById("pimg");
-            pimg.style.display = "none";
-            var mimg = document.getElementById("mimg");
-            mimg.style.display = "block";
-            app.style.borderRadius = "3px";
-            form.style.display = "block";
-            var title = document.getElementById("title");
-            title.style.borderRadius = "5px";
-            title.style.border = "1px solid #ccc";
-            title.style.borderColor = "black";
-            var location = document.getElementById("location");
-            location.style.borderRadius = "5px";
-            location.style.border = "1px solid #ccc";
-            location.style.borderColor = "black";
-            var notice = document.getElementById("notice");
-            notice.style.borderRadius = "5px";
-            notice.style.border = "1px solid #ccc";
-            notice.style.borderColor = "black";
-            var date = document.getElementById("start");
-            date.style.borderRadius = "5px";
-            date.style.border = "1px solid #ccc";
-            date.style.borderColor = "black";
-            app.style.padding = "8px";
-            app.style.marginTop = "8px";
-            app.style.marginBottom = "8px";
-            var button = document.getElementById("submit");
-            button.style.marginLeft = "15px";
-            //document.getElementById("myform");
-            mimg.style.display = "block";
-            document.getElementById("mimg").onclick = function () {
-                document.getElementById("newappointment").style.display = "none";
-                if (document.getElementById("newappointment").style.display === "none") {
-                    document.getElementById("pimg").style.display = "block"; //TODO
-                }
-            };
-        });
         var newItemBox = document.createElement("div");
         newItemBox.setAttribute("class", "item");
         newItemBox.setAttribute("id", key.toString());
@@ -81,5 +33,65 @@ $.getJSON(restServer, { method: "getAppointments" }, function (data) {
         $("#" + key.toString()).append(newTitle);
         $("#" + key.toString()).append(newDate);
         $("#" + key.toString()).append(newUser);
+    });
+});
+getBigger();
+var form = document.getElementById("myform");
+form.style.display = "none";
+document.getElementById("mimg").style.display = "none";
+function getBigger() {
+    $("#pimg").on("click", function () {
+        $("#newappointment").animate({
+            height: "+310",
+            width: "+600"
+        }, 500, function () {
+            console.log("animation complete");
+        });
+        var app = document.getElementById("newappointment");
+        app.style.backgroundColor = "white";
+        var pimg = document.getElementById("pimg");
+        pimg.style.display = "none";
+        var mimg = document.getElementById("mimg");
+        mimg.style.display = "block";
+        app.style.borderRadius = "3px";
+        form.style.display = "block";
+        var title = document.getElementById("title");
+        title.style.borderRadius = "5px";
+        title.style.border = "1px solid #ccc";
+        title.style.borderColor = "black";
+        var location = document.getElementById("location");
+        location.style.borderRadius = "5px";
+        location.style.border = "1px solid #ccc";
+        location.style.borderColor = "black";
+        var notice = document.getElementById("notice");
+        notice.style.borderRadius = "5px";
+        notice.style.border = "1px solid #ccc";
+        notice.style.borderColor = "black";
+        var date = document.getElementById("start");
+        date.style.borderRadius = "5px";
+        date.style.border = "1px solid #ccc";
+        date.style.borderColor = "black";
+        app.style.padding = "8px";
+        app.style.marginTop = "8px";
+        app.style.marginBottom = "8px";
+        var button = document.getElementById("submit");
+        button.style.marginLeft = "15px";
+        //document.getElementById("myform");
+    });
+}
+$("#mimg").on("click", function () {
+    $("#newappointment").animate({
+        height: "-310",
+        width: "-600"
+    }, 500, function () {
+        var newA = document.getElementById("newappointment");
+        newA.style.display = "none";
+    });
+    var pimg = document.getElementById("pimg");
+    pimg.style.display = "block";
+    $("#pimg").on("click", function () {
+        var newA = document.getElementById("newappointment");
+        getBigger();
+        newA.style.display = "block";
     });
 });

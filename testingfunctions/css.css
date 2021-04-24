@@ -1,0 +1,41 @@
+.wrapper-main{
+  display:flex;
+  align-items: center;
+  padding-top: 300px;
+  flex-direction: column;
+}
+
+.checkbox{
+  width: 200px;
+  margin: 10px;
+  border: 1px solid #333;
+  background-color: #dfdfdf;
+  margin: 0px;
+}
+
+.row{
+  display:flex;
+  flex-direction: row;
+}
+
+.row2{
+  display:flex;
+  flex-direction: row;
+}
+
+.row3{
+  display:flex;
+  flex-direction: row;
+}
+
+#box2{
+  width:100px;
+}
+
+#box4{
+  width:100px;
+}
+
+#box6{
+  width:100px;
+}
