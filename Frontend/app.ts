@@ -135,7 +135,7 @@ $("#mimg").on("click", function () {
     newDate?.setAttribute("class", "form-control");
     newDate!.required = true;
 
-    date?.append(newDate);
+    date!.append(newDate);
 
 
   });
