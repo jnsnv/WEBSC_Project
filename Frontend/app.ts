@@ -13,7 +13,6 @@
       --> Erstellen einer .htaccess - Datei im Verzeichnis der anzusprechenden PHP-Datei mit folgendem Inhalt:
              Header set Access-Control-Allow-Origin "*"
 */
-//document get ready
 
 interface Data {
   title: string;
@@ -23,68 +22,127 @@ interface Data {
   time: string;
   expiry_date: string;
 }
+let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
 
-$(() => {
+//document get ready
+document.addEventListener("DOMContentLoaded", function(event) { 
+  loaddata();
   let form = document.getElementById("myform");
   form!.style.display = "none";
   document.getElementById("mimg")!.style.display = "none";
 });
-
+// onload after everything has loaded
+window.onload = function () {
+  $(".accordion").on("click", function(){
+    $(this).toggleClass("active");
+    var $panel = $(this).next(".panel");
+    $panel.slideToggle();
+  });
+}
 
 
   $("#submit").on("click", function(){
+    // --- TITLE LOC EXP ---
     let title = $("#title").val(); 
     let location = $("#location").val(); 
     let exp = $("#exp").val();
+    //validation
+    if(title !== "" && location !== "" && exp !== "")
+    {
+      $.ajax({
+        type: "POST",
+        url: restServer,
+        data: {
+            method: "insertAppointment",
+            param1: title,
+            param2: location,
+            param3: exp
+        },
+        success: function (response) {
+            console.log("Data inserted.");
+            console.log(response)
+            getSmaller();
+            setInterval('location.reload()', 400);        // Using .reload() method.
+        }
+        
+    });
+    }
+    else
+    {
+      console.log("empty fields.");
+    }
+    // --- TITLE LOC EXP END ---
 
-    $.ajax({
-      type: "POST",
-      url: restServer,
-      data: {
-          method: "insertAppointment",
-          title: title,
-          location: location,
-          exp: exp
-      },
-      success: function (response) {
-          console.log("Data inserted.");
-          console.log(response)
-          getSmaller();
-      }
-      
+    // --- POSSIBLE DATES ---
+      $(".datebox").children(".form-control dates").each(function(){
+        let date = $(".form-control dates").val();
+
+        if(date !== "")
+        {
+          $.ajax({
+            type: "POST",
+            url: restServer,
+            data: {
+                method: "insertDates",
+                param1: date,
+                param2: title,
+            },
+            success: function (response) {
+                console.log("Data inserted.");
+                console.log(response)
+                getSmaller();
+                setInterval('location.reload()', 400);        // Using .reload() method.
+            }
+            
+        });
+        }
+        else
+        {
+          console.log("empty datefield");
+        }
+      });
+    // --- POSSIBLE DATES END ---
+
   });
-  })
 
 // ---Settings: GET JSON DATA FROM DATABASE---
-let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
-$.getJSON(
-  restServer,
-  { method: "getAppointments" },
-  function (data: Array<Data>) {
-    $.each(data, function (key, value) {
-      let newItemBox = document.createElement("div");
-      newItemBox.setAttribute("class", "item");
-      newItemBox.setAttribute("id", key.toString());
-      $(".wrapper-main").append(newItemBox);
+function loaddata(){
+  $.ajax({
+    type: "GET",
+    url: restServer,
+    cache: false,
+    data: {method: "getAppointments"},
+    dataType: "json",
+    async: true,
+    success: function (data){
+      console.log(data);
+      $.each(data, function (key, value) {
+        let newItemBox = document.createElement("button");
+        newItemBox.setAttribute("class", "accordion");
+        newItemBox.innerHTML = value.title;
+        $(".wrapper-main").append(newItemBox);
 
-      let newTitle = document.createElement("p");
-      let newLocation = document.createElement("p");
-      let newExpiryDate = document.createElement("p");
+        let newDiv = document.createElement("div");
+        newDiv.setAttribute("class", "panel");
+        $(".wrapper-main").append(newDiv);
+  
+        let newLocation = document.createElement("h2");
+        let newExpiryDate = document.createElement("h2");
+  
 
-      newTitle.setAttribute("class", "title");
-      newLocation.setAttribute("class", "location");
-      newExpiryDate.setAttribute("class", "exp_date");
-      newTitle.innerHTML = value.title;
-      newLocation.innerHTML = value.location;
-      newExpiryDate.innerHTML = value.expiry_date;
+        newLocation.setAttribute("class", "location");
+        newExpiryDate.setAttribute("class", "exp_date");
 
-      $("#" + key.toString()).append(newTitle);
-      $("#" + key.toString()).append(newLocation);
-      $("#" + key.toString()).append(newExpiryDate);
-    });
-    console.log(data);
-  }
-);
+        newLocation.innerHTML = "Location: " + value.location;
+        newExpiryDate.innerHTML = "Expiry Date: " + value.expiry_date;
+  
+        newDiv.append(newLocation);
+        newDiv.append(newExpiryDate);
+      });
+    }
+  })
+}
+
 //---GET JSON DATA END---
 
 //---ANIMATION SECTION---
@@ -92,7 +150,7 @@ function getBigger(){
   $("#newappointment").animate(
     {
       height: "330px",
-      width: "600px",
+      width: "35rem",
     },
     500,
     function () {
@@ -153,11 +211,13 @@ function getSmaller(){
     let date = document.querySelector(".datebox");
 
     newDate.type = "datetime-local";
+    newDate?.setAttribute("class", "form-control dates");
     newDate.id = "start";
 
-    newDate?.setAttribute("class", "form-control");
+
     newDate!.required = true;
     date!.append(newDate);
   });
-//---ANIMATION SECTION END---
 
+  
+//---ANIMATION SECTION END---

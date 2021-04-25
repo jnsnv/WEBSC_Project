@@ -46,8 +46,8 @@
                     <div class="minus">
                         <img id="mimg" src="img/minus.png">
                     </div>
-                    <div id="myform">
-                        <h4>Create an appointment!</h4>
+                    <form id="myform" onsubmit="return false;">
+                        <h4 id ="app-title">Create an appointment!</h4>
                         <div class="title-box">
                             <label for="Title">Title:</label>
                             <input type="text" class="form-control" id="title" name="title" required>
@@ -60,18 +60,17 @@
                             <label for="exp">Expiry-Date:</label>
                             <input type="date" class="form-control" id="exp" required>
                         </div>
-                        <div class="datebox">
-                            <label for="date">Date:</label>
+                        <label for="date">Date:</label>
                             <img id="dateplus" src="img/plus.png">
-                            <input type="datetime-local" class="form-control" id="start" required>
+                        <div class="datebox">
+                            <input type="datetime-local" class="form-control dates" id="start" required>
                         </div>
                         <br>
                         <button type="submit" id="submit" class="btn btn-primary" value="Submit">Go!</button>
-                    </div>
+                    </form>
                 </div>
                 <img src="img/plus.png" id="pimg">
             </div>
+        </div>
     </div>
-</body>
-
 </html>

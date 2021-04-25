@@ -2,22 +2,17 @@
 include("businesslogic/simpleLogic.php");
 
 $method = "";
-$param = "";
+$param1 = "";
 $param2 = "";
 $param3 = "";
 
-
 isset($_GET["method"]) ? $method = $_GET["method"] : false;
-isset($_GET["param"]) ? $param = $_GET["param"] : false;
-
-$title = "";
-$location = "";
-$exp = "";
 
 isset($_POST["method"]) ? $method = $_POST["method"] : false;
-isset($_POST["title"]) ? $title = $_POST["title"] : false;
-isset($_POST["location"]) ? $location = $_POST["location"] : false;
-isset($_POST["exp"]) ? $exp = $_POST["exp"] : false;
+isset($_POST["param1"]) ? $param1 = $_POST["param1"] : false;
+isset($_POST["param2"]) ? $param2 = $_POST["param2"] : false;
+isset($_POST["param3"]) ? $param3 = $_POST["param3"] : false;
+
 
 
 
@@ -26,7 +21,7 @@ $logic = new SimpleLogic();
 
 if($_SERVER['REQUEST_METHOD'] == 'GET')
 {
-    $result = $logic->handleRequest($method, $param, $param2, $param3);
+    $result = $logic->handleRequest($method, $param1, $param2, $param3);
     if ($result == null) {
         response("GET", 400, null);
     } else {
@@ -34,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET')
     }
 }
 else if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $logic->handleRequest($method, $title, $location, $exp);
+    $logic->handleRequest($method, $param1, $param2, $param3);
 }
 function response($method, $httpStatus, $data)
 {
