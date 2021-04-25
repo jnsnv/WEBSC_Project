@@ -4,7 +4,7 @@ include("businesslogic/simpleLogic.php");
 $method = "";
 $param = "";
 $param2 = "";
-$param3  = "";
+$param3 = "";
 
 
 isset($_GET["method"]) ? $method = $_GET["method"] : false;
@@ -14,6 +14,7 @@ $title = "";
 $location = "";
 $exp = "";
 
+isset($_POST["method"]) ? $method = $_POST["method"] : false;
 isset($_POST["title"]) ? $title = $_POST["title"] : false;
 isset($_POST["location"]) ? $location = $_POST["location"] : false;
 isset($_POST["exp"]) ? $exp = $_POST["exp"] : false;
@@ -33,16 +34,13 @@ if($_SERVER['REQUEST_METHOD'] == 'GET')
     }
 }
 else if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $result = $logic->handleRequest($method, $param, $param2, $param3);
+    $test = $logic->handleRequest($method, $title, $location, $exp);
     if ($result == null) {
-        response("POST", 400, null);
-    } else {
         response("POST", 200, $result);
+    } else {
+        response("POST", 400, null);
     }
 }
-   
-
-
 function response($method, $httpStatus, $data)
 {
     header('Content-Type: application/json');

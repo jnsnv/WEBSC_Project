@@ -25,17 +25,16 @@ $("#submit").on("click", function () {
     var exp = $("#exp").val();
     $.ajax({
         type: "POST",
-        url: "../Backend/serviceHandler.php",
-        cache: false,
+        url: restServer,
         data: {
             method: "insertAppointment",
             title: title,
             location: location,
             exp: exp
         },
-        dataType: "json",
         success: function (response) {
             console.log("hat funktioniert");
+            console.log(response);
         }
     });
 });

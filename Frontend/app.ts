@@ -35,23 +35,20 @@ $(() => {
   $("#submit").on("click", function(){
     let title = $("#title").val(); 
     let location = $("#location").val(); 
-    let exp = $("#exp").val(); 
- 
+    let exp = $("#exp").val();
 
     $.ajax({
       type: "POST",
-      url: "../Backend/serviceHandler.php",
-      cache: false,
+      url: restServer,
       data: {
           method: "insertAppointment",
           title: title,
           location: location,
           exp: exp
       },
-      dataType: "json",
       success: function (response) {
           console.log("hat funktioniert");
-         
+          console.log(response);
       }
       
   });

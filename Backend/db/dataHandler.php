@@ -41,6 +41,16 @@ class DataHandler
 
         $stmt->close();
     }
+    public function insertAppointment($title, $location, $exp){
+        $sql = "INSERT INTO appointments (title, location, expiry_date) VALUE (?, ?, ?);";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("sss", $title, $location, $exp);
+        $result = $stmt->execute();
+        $stmt->close();
+        
+        return $result;
+    }
 /*
     public function queryPersons()
     {
