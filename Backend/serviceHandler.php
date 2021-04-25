@@ -34,12 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET')
     }
 }
 else if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $test = $logic->handleRequest($method, $title, $location, $exp);
-    if ($result == null) {
-        response("POST", 200, $result);
-    } else {
-        response("POST", 400, null);
-    }
+    $logic->handleRequest($method, $title, $location, $exp);
 }
 function response($method, $httpStatus, $data)
 {
@@ -51,7 +46,6 @@ function response($method, $httpStatus, $data)
             break;
         case "POST":
             http_response_code($httpStatus);
-            echo (json_encode($data));
             break;
         default:
             http_response_code(405);

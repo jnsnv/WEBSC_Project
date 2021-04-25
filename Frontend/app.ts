@@ -47,17 +47,13 @@ $(() => {
           exp: exp
       },
       success: function (response) {
-          console.log("hat funktioniert");
-          console.log(response);
+          console.log("Data inserted.");
+          console.log(response)
+          getSmaller();
       }
       
   });
   })
-
-
-
-
-
 
 // ---Settings: GET JSON DATA FROM DATABASE---
 let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
@@ -66,7 +62,6 @@ $.getJSON(
   { method: "getAppointments" },
   function (data: Array<Data>) {
     $.each(data, function (key, value) {
-    
       let newItemBox = document.createElement("div");
       newItemBox.setAttribute("class", "item");
       newItemBox.setAttribute("id", key.toString());
@@ -87,6 +82,7 @@ $.getJSON(
       $("#" + key.toString()).append(newLocation);
       $("#" + key.toString()).append(newExpiryDate);
     });
+    console.log(data);
   }
 );
 //---GET JSON DATA END---
@@ -121,13 +117,14 @@ function getBigger(){
   app!.style.marginTop = "8px";
   app!.style.marginBottom = "8px";
   app!.style.backgroundColor = "white";
+  app!.style.display = "block";
 
   button!.style.marginLeft = "15px";
   //document.getElementById("myform");
 }
 
 // close form animation
-$("#mimg").on("click", function () {
+function getSmaller(){
   $("#newappointment").animate(
     {
       height: "-330",
@@ -136,20 +133,21 @@ $("#mimg").on("click", function () {
     500,
     function () {
         let newA = document.getElementById("newappointment");
-        newA!.style.display ="none";
         let pimg = document.getElementById("pimg");
+        newA!.style.display ="none";
         pimg!.style.display ="block";
     }
   );
-})
+}
+
+  $("#mimg").on("click", function () {
+    getSmaller();
+  })
 //open form animation
   $("#pimg").on("click", function () {
-    let newA = document.getElementById("newappointment");
     getBigger();
-    newA!.style.display ="block";
   });
 
-//add more dates
   $("#dateplus").on("click", function () {
     let newDate = document.createElement("input");
     let date = document.querySelector(".datebox");
@@ -159,10 +157,7 @@ $("#mimg").on("click", function () {
 
     newDate?.setAttribute("class", "form-control");
     newDate!.required = true;
-
     date!.append(newDate);
-
-
   });
 //---ANIMATION SECTION END---
 

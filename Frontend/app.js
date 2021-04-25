@@ -33,8 +33,9 @@ $("#submit").on("click", function () {
             exp: exp
         },
         success: function (response) {
-            console.log("hat funktioniert");
+            console.log("Data inserted.");
             console.log(response);
+            getSmaller();
         }
     });
 });
@@ -59,6 +60,7 @@ $.getJSON(restServer, { method: "getAppointments" }, function (data) {
         $("#" + key.toString()).append(newLocation);
         $("#" + key.toString()).append(newExpiryDate);
     });
+    console.log(data);
 });
 //---GET JSON DATA END---
 //---ANIMATION SECTION---
@@ -83,28 +85,29 @@ function getBigger() {
     app.style.marginTop = "8px";
     app.style.marginBottom = "8px";
     app.style.backgroundColor = "white";
+    app.style.display = "block";
     button.style.marginLeft = "15px";
     //document.getElementById("myform");
 }
 // close form animation
-$("#mimg").on("click", function () {
+function getSmaller() {
     $("#newappointment").animate({
         height: "-330",
         width: "-600"
     }, 500, function () {
         var newA = document.getElementById("newappointment");
-        newA.style.display = "none";
         var pimg = document.getElementById("pimg");
+        newA.style.display = "none";
         pimg.style.display = "block";
     });
+}
+$("#mimg").on("click", function () {
+    getSmaller();
 });
 //open form animation
 $("#pimg").on("click", function () {
-    var newA = document.getElementById("newappointment");
     getBigger();
-    newA.style.display = "block";
 });
-//add more dates
 $("#dateplus").on("click", function () {
     var newDate = document.createElement("input");
     var date = document.querySelector(".datebox");
