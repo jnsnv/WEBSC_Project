@@ -42,6 +42,7 @@ window.onload = function () {
 
 
   $("#submit").on("click", function(){
+    sendDates();
     // --- TITLE LOC EXP ---
     let title = $("#title").val(); 
     let location = $("#location").val(); 
@@ -59,10 +60,9 @@ window.onload = function () {
             param3: exp
         },
         success: function (response) {
+            sendDates();
             console.log("Data inserted.");
-            console.log(response)
             getSmaller();
-            setInterval('location.reload()', 400);        // Using .reload() method.
         }
         
     });
@@ -72,38 +72,36 @@ window.onload = function () {
       console.log("empty fields.");
     }
     // --- TITLE LOC EXP END ---
-
-    // --- POSSIBLE DATES ---
-      $(".datebox").children(".form-control dates").each(function(){
-        let date = $(".form-control dates").val();
-
-        if(date !== "")
-        {
-          $.ajax({
-            type: "POST",
-            url: restServer,
-            data: {
-                method: "insertDates",
-                param1: date,
-                param2: title,
-            },
-            success: function (response) {
-                console.log("Data inserted.");
-                console.log(response)
-                getSmaller();
-                setInterval('location.reload()', 400);        // Using .reload() method.
-            }
-            
-        });
-        }
-        else
-        {
-          console.log("empty datefield");
-        }
-      });
-    // --- POSSIBLE DATES END ---
-
+ 
   });
+  // --- POSSIBLE DATES ---
+  function sendDates() {
+    $(".datebox").children(".form-control.dates").each(function(){
+      let date = $(".form-control.dates").val();
+      let title = $("#title").val(); 
+      if(date !== "" && title !== "")
+      {
+        $.ajax({
+          type: "POST",
+          url: restServer,
+          data: {
+              method: "insertDates",
+              param1: date,
+              param2: title,
+          },
+          success: function (response) {
+              console.log("Data inserted.");
+              getSmaller();
+          }
+      });
+      }
+      else
+      {
+        console.log("empty datefield");
+      }
+    });
+  }
+  // --- POSSIBLE DATES END ---
 
 // ---Settings: GET JSON DATA FROM DATABASE---
 function loaddata(){
@@ -142,7 +140,6 @@ function loaddata(){
     }
   })
 }
-
 //---GET JSON DATA END---
 
 //---ANIMATION SECTION---

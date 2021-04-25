@@ -22,6 +22,7 @@ class SimpleLogic
                 $res = $this->dh->insertAppointment($param1, $param2, $param3);
                 break;
             case "insertDates":
+                $res = $this->dh->insertDates($param1, $param2);
                 break;
             default:
                 $res = null;

@@ -30,6 +30,7 @@ window.onload = function () {
     });
 };
 $("#submit").on("click", function () {
+    sendDates();
     // --- TITLE LOC EXP ---
     var title = $("#title").val();
     var location = $("#location").val();
@@ -46,10 +47,10 @@ $("#submit").on("click", function () {
                 param3: exp
             },
             success: function (response) {
+                sendDates();
                 console.log("Data inserted.");
                 console.log(response);
                 getSmaller();
-                setInterval('location.reload()', 400); // Using .reload() method.
             }
         });
     }
@@ -57,22 +58,27 @@ $("#submit").on("click", function () {
         console.log("empty fields.");
     }
     // --- TITLE LOC EXP END ---
-    // --- POSSIBLE DATES ---
-    $(".datebox").children(".form-control dates").each(function () {
-        var date = $(".form-control dates").val();
-        if (date !== "") {
+});
+// --- POSSIBLE DATES ---
+function sendDates() {
+    $(".datebox").children(".form-control.dates").each(function () {
+        var date = $(".form-control.dates").val();
+        var title = $("#title").val();
+        console.log(date);
+        console.log(title);
+        if (date !== "" && title !== "") {
             $.ajax({
                 type: "POST",
                 url: restServer,
                 data: {
                     method: "insertDates",
-                    param: date
+                    param1: date,
+                    param2: title
                 },
                 success: function (response) {
                     console.log("Data inserted.");
                     console.log(response);
                     getSmaller();
-                    setInterval('location.reload()', 400); // Using .reload() method.
                 }
             });
         }
@@ -80,8 +86,8 @@ $("#submit").on("click", function () {
             console.log("empty datefield");
         }
     });
-    // --- POSSIBLE DATES END ---
-});
+}
+// --- POSSIBLE DATES END ---
 // ---Settings: GET JSON DATA FROM DATABASE---
 function loaddata() {
     $.ajax({

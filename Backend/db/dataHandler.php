@@ -41,11 +41,36 @@ class DataHandler
 
         $stmt->close();
     }
+    public function getAvailableAppointments($title){
+        $sql = "SELECT * FROM available_appointments WHERE appointment = ?;";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->execute();
+        $row = $stmt->get_result();
+        $data = array();
+        while ($result = $row->fetch_assoc()){
+            $data[] = $result;
+        }
+        if(!empty($data)){
+            return $data;
+        }
+        $stmt->close();
+    }
     public function insertAppointment($title, $location, $exp){
         $sql = "INSERT INTO appointments (title, location, expiry_date) VALUE (?, ?, ?);";
         $connection = $this->connect();
         $stmt = $connection->prepare($sql);
         $stmt->bind_param("sss", $title, $location, $exp);
+        $result = $stmt->execute();
+        $stmt->close();
+        
+        return $result;
+    }
+    public function insertDates($date, $title){
+        $sql = "INSERT INTO available_appointments (date, appointment) VALUE (?, ?);";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("ss", $date, $title);
         $result = $stmt->execute();
         $stmt->close();
         
