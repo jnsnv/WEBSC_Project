@@ -17,6 +17,7 @@ var restServer = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Bac
 //document get ready
 document.addEventListener("DOMContentLoaded", function (event) {
     loaddata();
+    loadDates();
     var form = document.getElementById("myform");
     form.style.display = "none";
     document.getElementById("mimg").style.display = "none";
@@ -30,7 +31,6 @@ window.onload = function () {
     });
 };
 $("#submit").on("click", function () {
-    sendDates();
     // --- TITLE LOC EXP ---
     var title = $("#title").val();
     var location = $("#location").val();
@@ -49,7 +49,6 @@ $("#submit").on("click", function () {
             success: function (response) {
                 sendDates();
                 console.log("Data inserted.");
-                console.log(response);
                 getSmaller();
             }
         });
@@ -64,8 +63,6 @@ function sendDates() {
     $(".datebox").children(".form-control.dates").each(function () {
         var date = $(".form-control.dates").val();
         var title = $("#title").val();
-        console.log(date);
-        console.log(title);
         if (date !== "" && title !== "") {
             $.ajax({
                 type: "POST",
@@ -77,7 +74,6 @@ function sendDates() {
                 },
                 success: function (response) {
                     console.log("Data inserted.");
-                    console.log(response);
                     getSmaller();
                 }
             });
@@ -96,7 +92,6 @@ function loaddata() {
         cache: false,
         data: { method: "getAppointments" },
         dataType: "json",
-        async: true,
         success: function (data) {
             console.log(data);
             $.each(data, function (key, value) {
@@ -115,10 +110,32 @@ function loaddata() {
                 newExpiryDate.innerHTML = "Expiry Date: " + value.expiry_date;
                 newDiv.append(newLocation);
                 newDiv.append(newExpiryDate);
+                var votingArea = document.createElement("div");
+                votingArea.setAttribute("id", value.title);
+                newDiv.append(votingArea);
             });
         }
     });
 }
+function loadDates() {
+    $.ajax({
+        type: "GET",
+        url: restServer,
+        cache: false,
+        data: { method: "getAvailableAppointments" },
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            $.each(data, function (key, value) {
+                var dateOption = document.createElement("input");
+                dateOption.type = "checkbox";
+                var fieldToAppend = document.getElementById(value.appointment);
+                fieldToAppend === null || fieldToAppend === void 0 ? void 0 : fieldToAppend.append(dateOption);
+            });
+        }
+    });
+}
+;
 //---GET JSON DATA END---
 //---ANIMATION SECTION---
 function getBigger() {
@@ -169,7 +186,7 @@ $("#dateplus").on("click", function () {
     var newDate = document.createElement("input");
     var date = document.querySelector(".datebox");
     newDate.type = "datetime-local";
-    newDate === null || newDate === void 0 ? void 0 : newDate.setAttribute("class", "form-control dates");
+    newDate === null || newDate === void 0 ? void 0 : newDate.setAttribute("class", "form-control.dates");
     newDate.id = "start";
     newDate.required = true;
     date.append(newDate);

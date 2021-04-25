@@ -41,8 +41,8 @@ class DataHandler
 
         $stmt->close();
     }
-    public function getAvailableAppointments($title){
-        $sql = "SELECT * FROM available_appointments WHERE appointment = ?;";
+    public function getAvailableAppointments(){
+        $sql = "SELECT * FROM available_appointments;";
         $connection = $this->connect();
         $stmt = $connection->prepare($sql);
         $stmt->execute();

@@ -27,6 +27,7 @@ let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Pro
 //document get ready
 document.addEventListener("DOMContentLoaded", function(event) { 
   loaddata();
+  loadDates();
   let form = document.getElementById("myform");
   form!.style.display = "none";
   document.getElementById("mimg")!.style.display = "none";
@@ -38,11 +39,11 @@ window.onload = function () {
     var $panel = $(this).next(".panel");
     $panel.slideToggle();
   });
+ 
 }
 
 
   $("#submit").on("click", function(){
-    sendDates();
     // --- TITLE LOC EXP ---
     let title = $("#title").val(); 
     let location = $("#location").val(); 
@@ -111,7 +112,6 @@ function loaddata(){
     cache: false,
     data: {method: "getAppointments"},
     dataType: "json",
-    async: true,
     success: function (data){
       console.log(data);
       $.each(data, function (key, value) {
@@ -136,10 +136,38 @@ function loaddata(){
   
         newDiv.append(newLocation);
         newDiv.append(newExpiryDate);
+
+        let votingArea = document.createElement("div");
+        votingArea.setAttribute("id", value.title);
+
+        newDiv.append(votingArea);
+
       });
     }
   })
 }
+
+function loadDates(){
+  $.ajax({
+    type: "GET",
+    url: restServer,
+    cache: false,
+    data: {method: "getAvailableAppointments"},
+    dataType: "json",
+    success: function (data){
+      console.log(data);
+      $.each(data, function (key, value) {
+        let dateOption = document.createElement("input");
+        dateOption.type = "checkbox";
+
+        let fieldToAppend = document.getElementById(value.appointment);
+
+        fieldToAppend?.append(dateOption);
+
+      });
+    }
+  })
+};
 //---GET JSON DATA END---
 
 //---ANIMATION SECTION---
@@ -208,7 +236,7 @@ function getSmaller(){
     let date = document.querySelector(".datebox");
 
     newDate.type = "datetime-local";
-    newDate?.setAttribute("class", "form-control dates");
+    newDate?.setAttribute("class", "form-control.dates");
     newDate.id = "start";
 
 
