@@ -60,8 +60,8 @@ $("#submit").on("click", function () {
 });
 // --- POSSIBLE DATES ---
 function sendDates() {
-    $(".datebox").children(".form-control.dates").each(function () {
-        var date = $(".form-control.dates").val();
+    $(".datebox").children(".form-control.dates").each(function (index) {
+        var date = $(this).val();
         var title = $("#title").val();
         if (date !== "" && title !== "") {
             $.ajax({
@@ -117,6 +117,7 @@ function loaddata() {
         }
     });
 }
+//dates loaded in
 function loadDates() {
     $.ajax({
         type: "GET",
@@ -129,8 +130,14 @@ function loadDates() {
             $.each(data, function (key, value) {
                 var dateOption = document.createElement("input");
                 dateOption.type = "checkbox";
+                dateOption.value = value.date;
+                dateOption.id = value.date;
+                var labelNode = document.createElement("label");
+                labelNode.htmlFor = value.date;
+                labelNode.innerHTML = value.date;
                 var fieldToAppend = document.getElementById(value.appointment);
                 fieldToAppend === null || fieldToAppend === void 0 ? void 0 : fieldToAppend.append(dateOption);
+                fieldToAppend === null || fieldToAppend === void 0 ? void 0 : fieldToAppend.append(labelNode);
             });
         }
     });
@@ -186,7 +193,7 @@ $("#dateplus").on("click", function () {
     var newDate = document.createElement("input");
     var date = document.querySelector(".datebox");
     newDate.type = "datetime-local";
-    newDate === null || newDate === void 0 ? void 0 : newDate.setAttribute("class", "form-control.dates");
+    newDate === null || newDate === void 0 ? void 0 : newDate.setAttribute("class", "form-control dates");
     newDate.id = "start";
     newDate.required = true;
     date.append(newDate);

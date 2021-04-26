@@ -14,6 +14,7 @@
              Header set Access-Control-Allow-Origin "*"
 */
 
+
 interface Data {
   title: string;
   user: string;
@@ -77,8 +78,8 @@ window.onload = function () {
   });
   // --- POSSIBLE DATES ---
   function sendDates() {
-    $(".datebox").children(".form-control.dates").each(function(){
-      let date = $(".form-control.dates").val();
+    $(".datebox").children(".form-control.dates").each(function(index){
+      let date = $(this).val();
       let title = $("#title").val(); 
       if(date !== "" && title !== "")
       {
@@ -146,7 +147,7 @@ function loaddata(){
     }
   })
 }
-
+//dates loaded in
 function loadDates(){
   $.ajax({
     type: "GET",
@@ -159,10 +160,17 @@ function loadDates(){
       $.each(data, function (key, value) {
         let dateOption = document.createElement("input");
         dateOption.type = "checkbox";
+        dateOption.value = value.date;
+        dateOption.id = value.date;
+
+        let labelNode = document.createElement("label");
+        labelNode.htmlFor = value.date;
+        labelNode.innerHTML = value.date;
 
         let fieldToAppend = document.getElementById(value.appointment);
 
         fieldToAppend?.append(dateOption);
+        fieldToAppend?.append(labelNode);
 
       });
     }
@@ -236,13 +244,14 @@ function getSmaller(){
     let date = document.querySelector(".datebox");
 
     newDate.type = "datetime-local";
-    newDate?.setAttribute("class", "form-control.dates");
+    newDate?.setAttribute("class", "form-control dates");
     newDate.id = "start";
-
 
     newDate!.required = true;
     date!.append(newDate);
+
   });
+
 
   
 //---ANIMATION SECTION END---
