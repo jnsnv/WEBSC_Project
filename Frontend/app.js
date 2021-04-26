@@ -48,8 +48,8 @@ $("#submit").on("click", function () {
             },
             success: function (response) {
                 sendDates();
-                console.log("Data inserted.");
                 getSmaller();
+                console.log("Data inserted.");
             }
         });
     }
@@ -75,6 +75,9 @@ function sendDates() {
                 success: function (response) {
                     console.log("Data inserted.");
                     getSmaller();
+                    setTimeout(function () {
+                        location.reload();
+                    }, 800);
                 }
             });
         }

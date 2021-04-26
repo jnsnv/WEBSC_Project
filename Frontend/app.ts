@@ -63,8 +63,8 @@ window.onload = function () {
         },
         success: function (response) {
             sendDates();
-            console.log("Data inserted.");
             getSmaller();
+            console.log("Data inserted.");
         }
         
     });
@@ -94,6 +94,9 @@ window.onload = function () {
           success: function (response) {
               console.log("Data inserted.");
               getSmaller();
+              setTimeout(function(){
+                location.reload();
+             }, 800);
           }
       });
       }
