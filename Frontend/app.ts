@@ -27,25 +27,21 @@ let restServer: string =
 
 //document get ready
 document.addEventListener("DOMContentLoaded", function (event) {
- 
-
-  let form = document.getElementById("myform");
+  loaddata();
+  loadDates();
+  let form = document.getElementById("myform")!;
   form!.style.display = "none";
   document.getElementById("mimg")!.style.display = "none";
 });
 // onload after everything has loaded
 window.onload = function () {
-  loaddata();
-  loadDates();
   $(".accordion").on("click", function () {
     $(this).toggleClass("active");
     var $panel = $(this).next(".panel");
     $panel.slideToggle();
-    
   });
-  
-  console.log( $(".votingArea").children(".dateCheck"));
 
+  console.log($(".votingArea").children(".dateCheck"));
 };
 
 $("#submit").on("click", function () {
@@ -89,7 +85,7 @@ function sendDates() {
           data: {
             method: "insertDates",
             param1: date,
-            param2: title
+            param2: title,
           },
           success: function (response) {
             console.log("Data inserted.");
@@ -106,8 +102,16 @@ function sendDates() {
 }
 // --- POSSIBLE DATES END ---
 
- 
-
+function voteChecks() {
+  $(".votingArea")
+    .children(".dateCheck")
+    .each(function () {
+      if ($(this).prop("checked") == false) {
+        console.log(this);
+      }
+    });
+}
+// co;nsole.log( $(".votingArea").children(".dateCheck"))
 // ---Settings: GET JSON DATA FROM DATABASE---
 function loaddata() {
   $.ajax({
@@ -139,10 +143,9 @@ function loaddata() {
         newExpiryDate.innerHTML = "Expiry Date: " + value.expiry_date;
         availableDates.innerHTML = "Available Dates: ";
 
-
         newDiv.append(newLocation);
         newDiv.append(newExpiryDate);
-        newDiv.append(availableDates)
+        newDiv.append(availableDates);
 
         let votingArea = document.createElement("div");
         votingArea.setAttribute("id", value.title);
@@ -159,7 +162,7 @@ function loaddata() {
         let kommi = document.createElement("label");
         let button = document.createElement("button");
         let br = document.createElement("br");
-       
+
         username.setAttribute("type", "text");
         username.setAttribute("class", "form-control");
 
@@ -185,6 +188,7 @@ function loaddata() {
     },
   });
 }
+
 //dates loaded in
 function loadDates() {
   $.ajax({
@@ -196,13 +200,11 @@ function loadDates() {
     success: function (data) {
       console.log(data);
       $.each(data, function (key, value) {
-
         let dateOption = document.createElement("input");
         let labelNode = document.createElement("label");
         let br = document.createElement("br");
-        let fieldToAppend = document.getElementById(value.appointment);
-        
-        
+        let fieldToAppend = document.getElementById(value.appointment)!;
+
         dateOption.type = "checkbox";
         dateOption.value = value.date;
         dateOption.id = value.date;
@@ -210,12 +212,10 @@ function loadDates() {
 
         labelNode.htmlFor = value.date;
         labelNode.innerHTML = value.date;
-  
+
         fieldToAppend!.append(dateOption);
         fieldToAppend!.append(labelNode);
         fieldToAppend!.append(br);
-        
-        
       });
     },
   });
@@ -236,11 +236,11 @@ function getBigger() {
     }
   );
 
-  let app = document.getElementById("newappointment");
-  let pimg = document.getElementById("pimg");
-  let mimg = document.getElementById("mimg");
-  let button = document.getElementById("submit");
-  let form = document.getElementById("myform");
+  let app = document.getElementById("newappointment")!;
+  let pimg = document.getElementById("pimg")!;
+  let mimg = document.getElementById("mimg")!;
+  let button = document.getElementById("submit")!;
+  let form = document.getElementById("myform")!;
 
   pimg!.style.display = "none";
   mimg!.style.display = "block";
@@ -266,8 +266,8 @@ function getSmaller() {
     },
     500,
     function () {
-      let newA = document.getElementById("newappointment");
-      let pimg = document.getElementById("pimg");
+      let newA = document.getElementById("newappointment")!;
+      let pimg = document.getElementById("pimg")!;
       newA!.style.display = "none";
       pimg!.style.display = "block";
     }

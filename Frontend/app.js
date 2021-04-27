@@ -16,14 +16,14 @@
 var restServer = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
 //document get ready
 document.addEventListener("DOMContentLoaded", function (event) {
+    loaddata();
+    loadDates();
     var form = document.getElementById("myform");
     form.style.display = "none";
     document.getElementById("mimg").style.display = "none";
 });
 // onload after everything has loaded
 window.onload = function () {
-    loaddata();
-    loadDates();
     $(".accordion").on("click", function () {
         $(this).toggleClass("active");
         var $panel = $(this).next(".panel");
@@ -90,6 +90,16 @@ function sendDates() {
     });
 }
 // --- POSSIBLE DATES END ---
+function voteChecks() {
+    $(".votingArea")
+        .children(".dateCheck")
+        .each(function () {
+        if ($(this).prop("checked") == false) {
+            console.log(this);
+        }
+    });
+}
+// co;nsole.log( $(".votingArea").children(".dateCheck"))
 // ---Settings: GET JSON DATA FROM DATABASE---
 function loaddata() {
     $.ajax({
