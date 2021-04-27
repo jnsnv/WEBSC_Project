@@ -59,7 +59,9 @@ $("#submit").on("click", function () {
 });
 // --- POSSIBLE DATES ---
 function sendDates() {
-    $(".datebox").children(".form-control.dates").each(function (index) {
+    $(".datebox")
+        .children(".form-control.dates")
+        .each(function (index) {
         var date = $(this).val();
         var title = $("#title").val();
         if (date !== "" && title !== "") {
@@ -87,7 +89,9 @@ function sendDates() {
 }
 // --- POSSIBLE DATES END ---
 function voteChecks() {
-    $(".votingArea").children(".dateCheck").each(function () {
+    $(".votingArea")
+        .children(".dateCheck")
+        .each(function () {
         if ($(this).prop("checked") == false) {
             console.log(this);
         }
@@ -115,6 +119,7 @@ function loaddata() {
                 //accordion
                 newItemBox.setAttribute("class", "accordion");
                 newItemBox.setAttribute("id", value.expiry_date);
+                newItemBox.setAttribute("onclick", value.expiry_date);
                 newItemBox.innerHTML = value.title;
                 $(".wrapper-main").append(newItemBox);
                 //panels in accordion
@@ -130,6 +135,8 @@ function loaddata() {
                 newDiv.append(newLocation);
                 newDiv.append(newExpiryDate);
                 newDiv.append(availableDates);
+                //
+                //
                 //set voting area attributes
                 votingArea.setAttribute("id", value.title);
                 votingArea.setAttribute("class", "votingArea");
@@ -151,7 +158,15 @@ function loaddata() {
                 kommi.innerHTML = "Kommentar:";
                 button.setAttribute("type", "button");
                 button.setAttribute("class", "btn btn-success vote");
-                button.innerHTML = "Button";
+                button.innerHTML = "Send";
+                //check if date is expired
+                if (Date.parse(value.expiry_date) - Date.parse(new Date().toString()) < 0) {
+                    newItemBox.style.backgroundColor = "grey";
+                    // $("#"+ value.expiry_date).prop("onclick", null).off("click");
+                    $(button).prop("onclick", null).off("click");
+                    button.setAttribute("class", "btn btn-danger");
+                    button.innerHTML = "Disabled";
+                }
                 newDiv.append(form);
                 form.append(uid);
                 form.append(username);

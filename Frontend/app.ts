@@ -22,15 +22,15 @@ interface Data {
   time: string;
   expiry_date: string;
 }
-let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
+let restServer: string =
+  "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
 
 //document get ready
-$(function() {
+$(function () {
   loaddata();
   let form = document.getElementById("myform")! as HTMLElement;
   form!.style.display = "none";
   document.getElementById("mimg")!.style.display = "none";
-  
 });
 // onload after everything has loaded
 window.onload = function () {
@@ -38,6 +38,7 @@ window.onload = function () {
     $(this).toggleClass("active");
     var $panel = $(this).next(".panel");
     $panel.slideToggle();
+    
   });
 };
 
@@ -70,7 +71,9 @@ $("#submit").on("click", function () {
 });
 // --- POSSIBLE DATES ---
 function sendDates() {
-  $(".datebox").children(".form-control.dates").each(function (index) {
+  $(".datebox")
+    .children(".form-control.dates")
+    .each(function (index) {
       let date: string = $(this).val()! as string;
       let title: string = $("#title").val() as string;
       if (date !== "" && title !== "") {
@@ -98,7 +101,9 @@ function sendDates() {
 // --- POSSIBLE DATES END ---
 
 function voteChecks() {
-  $(".votingArea").children(".dateCheck").each(function () {
+  $(".votingArea")
+    .children(".dateCheck")
+    .each(function () {
       if ($(this).prop("checked") == false) {
         console.log(this);
       }
@@ -126,6 +131,7 @@ function loaddata() {
         //accordion
         newItemBox.setAttribute("class", "accordion");
         newItemBox.setAttribute("id", value.expiry_date);
+        newItemBox.setAttribute("onclick", value.expiry_date);
         newItemBox.innerHTML = value.title;
         $(".wrapper-main").append(newItemBox);
         //panels in accordion
@@ -141,6 +147,10 @@ function loaddata() {
         newDiv.append(newLocation);
         newDiv.append(newExpiryDate);
         newDiv.append(availableDates);
+
+        //
+        //
+
         //set voting area attributes
         votingArea.setAttribute("id", value.title);
         votingArea.setAttribute("class", "votingArea");
@@ -168,7 +178,16 @@ function loaddata() {
 
         button.setAttribute("type", "button");
         button.setAttribute("class", "btn btn-success vote");
-        button.innerHTML = "Button";
+        button.innerHTML = "Send";
+
+        //check if date is expired
+        if (Date.parse(value.expiry_date) - Date.parse(new Date().toString()) < 0) {
+          newItemBox.style.backgroundColor = "grey";
+            // $("#"+ value.expiry_date).prop("onclick", null).off("click");
+            $(button).prop("onclick", null).off("click");
+            button.setAttribute("class", "btn btn-danger");
+            button.innerHTML="Disabled";
+        }
 
         newDiv.append(form);
         form.append(uid);
@@ -178,9 +197,11 @@ function loaddata() {
         form.append(br);
         form.append(button);
       });
+
       //loadDates function gets called after loaddata is done
       //nested ajax call
       loadDates();
+    
     },
   });
 }
