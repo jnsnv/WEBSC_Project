@@ -140,7 +140,7 @@ function voteChecks() {
       }
     });
 }
-// co;nsole.log( $(".votingArea").children(".dateCheck"))
+
 // ---Settings: GET JSON DATA FROM DATABASE---
 function loaddata() {
   $.ajax({

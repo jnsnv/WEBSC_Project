@@ -36,5 +36,6 @@ class SimpleLogic
 
         }
         return $res;
+        //test
     }
 }

@@ -76,7 +76,7 @@ class DataHandler
         
         return $result;
     }
-
+//
     public function insertAvailCB($username, $date, $comment){
         $sql = "INSERT INTO users (username, date, comment) VALUE (?, ?, ?);";
         $connection = $this->connect();
