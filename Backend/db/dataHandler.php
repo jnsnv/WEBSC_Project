@@ -76,6 +76,17 @@ class DataHandler
         
         return $result;
     }
+
+    public function insertAvailCB($username, $date, $comment){
+        $sql = "INSERT INTO users (username, date, comment) VALUE (?, ?, ?);";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("sss", $username, $date, $comment);
+        $result = $stmt->execute();
+        $stmt->close();
+
+        return $result;
+    }
 /*
     public function queryPersons()
     {

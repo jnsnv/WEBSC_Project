@@ -27,9 +27,13 @@ class SimpleLogic
             case "insertDates":
                 $res = $this->dh->insertDates($param1, $param2);
                 break;
+            case "insertAvailCB":
+                $res = $this->dh->insertAvailCB($param1, $param2, $param3);
+                break;
             default:
                 $res = null;
                 break;
+
         }
         return $res;
     }

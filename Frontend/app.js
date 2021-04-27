@@ -29,6 +29,36 @@ window.onload = function () {
         $panel.slideToggle();
     });
 };
+$(".vote").on("click", function () {
+    $(".votingArea")
+        .children(".dateCheck")
+        .each(function (index) {
+        var date;
+        if ($(this).prop("checked") == false) {
+            date = $(this).val();
+        }
+        var username = $(".uid").val();
+        var comment = $(".comment").val();
+        if (username !== "" && date !== "" && comment !== "") {
+            $.ajax({
+                type: "POST",
+                url: restServer,
+                data: {
+                    method: "insertAvailCB",
+                    param1: username,
+                    param2: date,
+                    param3: comment
+                },
+                success: function (response) {
+                    console.log("it worked");
+                }
+            });
+        }
+        else {
+            console.log("empty datefield");
+        }
+    });
+});
 $("#submit").on("click", function () {
     // --- TITLE LOC EXP ---
     var title = $("#title").val();
@@ -53,10 +83,11 @@ $("#submit").on("click", function () {
         });
     }
     else {
-        console.log("empty fields.");
+        console.log("empty fields!!.");
     }
     // --- TITLE LOC EXP END ---
 });
+//insert checkboxes
 // --- POSSIBLE DATES ---
 function sendDates() {
     $(".datebox")
@@ -93,7 +124,7 @@ function voteChecks() {
         .children(".dateCheck")
         .each(function () {
         if ($(this).prop("checked") == false) {
-            console.log(this);
+            //  console.log(this);
         }
     });
 }
@@ -107,7 +138,7 @@ function loaddata() {
         data: { method: "getAppointments" },
         dataType: "json",
         success: function (data) {
-            console.log(data);
+            //console.log(data);
             $.each(data, function (key, value) {
                 //html nodes
                 var newItemBox = document.createElement("button");
@@ -151,16 +182,17 @@ function loaddata() {
                 var button = document.createElement("button");
                 var br = document.createElement("br");
                 username.setAttribute("type", "text");
-                username.setAttribute("class", "form-control");
+                username.setAttribute("class", "form-control uid");
                 uid.innerHTML = "Username:";
                 kommentar.setAttribute("type", "text-field");
-                kommentar.setAttribute("class", "form-control");
+                kommentar.setAttribute("class", "form-control comment");
                 kommi.innerHTML = "Kommentar:";
-                button.setAttribute("type", "button");
+                button.setAttribute("type", "submit");
                 button.setAttribute("class", "btn btn-success vote");
                 button.innerHTML = "Send";
                 //check if date is expired
-                if (Date.parse(value.expiry_date) - Date.parse(new Date().toString()) < 0) {
+                if (Date.parse(value.expiry_date) - Date.parse(new Date().toString()) <
+                    0) {
                     newItemBox.style.backgroundColor = "grey";
                     // $("#"+ value.expiry_date).prop("onclick", null).off("click");
                     button.disabled = true;
@@ -190,7 +222,7 @@ function loadDates() {
         data: { method: "getAvailableAppointments" },
         dataType: "json",
         success: function (data) {
-            console.log(data);
+            //console.log(data);
             $.each(data, function (key, value) {
                 var dateOption = document.createElement("input");
                 var labelNode = document.createElement("label");
@@ -216,7 +248,7 @@ function getBigger() {
         height: "330px",
         width: "35rem"
     }, 500, function () {
-        console.log("animation complete");
+        //console.log("animation complete");
         $("#newappointment").css("height", "100%");
     });
     var app = document.getElementById("newappointment");
