@@ -213,9 +213,9 @@ function loadDates() {
         labelNode.htmlFor = value.date;
         labelNode.innerHTML = value.date;
 
-        fieldToAppend!.append(dateOption);
-        fieldToAppend!.append(labelNode);
-        fieldToAppend!.append(br);
+        fieldToAppend.append(dateOption);
+        fieldToAppend.append(labelNode);
+        fieldToAppend.append(br);
       });
     },
   });
