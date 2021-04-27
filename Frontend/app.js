@@ -163,7 +163,7 @@ function loaddata() {
                 if (Date.parse(value.expiry_date) - Date.parse(new Date().toString()) < 0) {
                     newItemBox.style.backgroundColor = "grey";
                     // $("#"+ value.expiry_date).prop("onclick", null).off("click");
-                    $(button).prop("onclick", null).off("click");
+                    button.disabled = true;
                     button.setAttribute("class", "btn btn-danger");
                     button.innerHTML = "Disabled";
                 }
