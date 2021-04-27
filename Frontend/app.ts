@@ -22,16 +22,15 @@ interface Data {
   time: string;
   expiry_date: string;
 }
-let restServer: string =
-  "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
+let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
 
 //document get ready
-document.addEventListener("DOMContentLoaded", function (event) {
+$(function() {
   loaddata();
-  loadDates();
-  let form = document.getElementById("myform")!;
+  let form = document.getElementById("myform")! as HTMLElement;
   form!.style.display = "none";
   document.getElementById("mimg")!.style.display = "none";
+  
 });
 // onload after everything has loaded
 window.onload = function () {
@@ -40,15 +39,13 @@ window.onload = function () {
     var $panel = $(this).next(".panel");
     $panel.slideToggle();
   });
-
-  console.log($(".votingArea").children(".dateCheck"));
 };
 
 $("#submit").on("click", function () {
   // --- TITLE LOC EXP ---
-  let title = $("#title").val();
-  let location = $("#location").val();
-  let exp = $("#exp").val();
+  let title: string = $("#title").val()! as string;
+  let location: string = $("#location").val()! as string;
+  let exp: string = $("#exp").val()! as string;
   //validation
   if (title !== "" && location !== "" && exp !== "") {
     $.ajax({
@@ -73,11 +70,9 @@ $("#submit").on("click", function () {
 });
 // --- POSSIBLE DATES ---
 function sendDates() {
-  $(".datebox")
-    .children(".form-control.dates")
-    .each(function (index) {
-      let date = $(this).val();
-      let title = $("#title").val();
+  $(".datebox").children(".form-control.dates").each(function (index) {
+      let date: string = $(this).val()! as string;
+      let title: string = $("#title").val() as string;
       if (date !== "" && title !== "") {
         $.ajax({
           type: "POST",
@@ -103,9 +98,7 @@ function sendDates() {
 // --- POSSIBLE DATES END ---
 
 function voteChecks() {
-  $(".votingArea")
-    .children(".dateCheck")
-    .each(function () {
+  $(".votingArea").children(".dateCheck").each(function () {
       if ($(this).prop("checked") == false) {
         console.log(this);
       }
@@ -123,45 +116,45 @@ function loaddata() {
     success: function (data) {
       console.log(data);
       $.each(data, function (key, value) {
-        let newItemBox = document.createElement("button");
+        //html nodes
+        let newItemBox = document.createElement("button")!;
+        let newDiv = document.createElement("div")!;
+        let newLocation = document.createElement("h2")!;
+        let newExpiryDate = document.createElement("h2")!;
+        let availableDates = document.createElement("h4")!;
+        let votingArea = document.createElement("div")!;
+        //accordion
         newItemBox.setAttribute("class", "accordion");
+        newItemBox.setAttribute("id", value.expiry_date);
         newItemBox.innerHTML = value.title;
         $(".wrapper-main").append(newItemBox);
-
-        let newDiv = document.createElement("div");
+        //panels in accordion
         newDiv.setAttribute("class", "panel");
         $(".wrapper-main").append(newDiv);
-
-        let newLocation = document.createElement("h2");
-        let newExpiryDate = document.createElement("h2");
-        let availableDates = document.createElement("h4");
-
+        //set attributes on exp loc and available dates
         newLocation.setAttribute("class", "location");
         newExpiryDate.setAttribute("class", "exp_date");
-
         newLocation.innerHTML = "Location: " + value.location;
         newExpiryDate.innerHTML = "Expiry Date: " + value.expiry_date;
         availableDates.innerHTML = "Available Dates: ";
-
+        //append new nodes
         newDiv.append(newLocation);
         newDiv.append(newExpiryDate);
         newDiv.append(availableDates);
-
-        let votingArea = document.createElement("div");
+        //set voting area attributes
         votingArea.setAttribute("id", value.title);
         votingArea.setAttribute("class", "votingArea");
-
+        //append voting area div
         newDiv.append(votingArea);
 
         //append form to panel
-
-        let form = document.createElement("form");
-        let username = document.createElement("input");
-        let uid = document.createElement("label");
-        let kommentar = document.createElement("input");
-        let kommi = document.createElement("label");
-        let button = document.createElement("button");
-        let br = document.createElement("br");
+        let form = document.createElement("form")!;
+        let username = document.createElement("input")!;
+        let uid = document.createElement("label")!;
+        let kommentar = document.createElement("input")!;
+        let kommi = document.createElement("label")!;
+        let button = document.createElement("button")!;
+        let br = document.createElement("br")!;
 
         username.setAttribute("type", "text");
         username.setAttribute("class", "form-control");
@@ -177,14 +170,17 @@ function loaddata() {
         button.setAttribute("class", "btn btn-success vote");
         button.innerHTML = "Button";
 
-        newDiv!.append(form);
-        form!.append(uid);
-        form!.append(username);
-        form!.append(kommi);
-        form!.append(kommentar);
-        form!.append(br);
-        form!.append(button);
+        newDiv.append(form);
+        form.append(uid);
+        form.append(username);
+        form.append(kommi);
+        form.append(kommentar);
+        form.append(br);
+        form.append(button);
       });
+      //loadDates function gets called after loaddata is done
+      //nested ajax call
+      loadDates();
     },
   });
 }
@@ -200,9 +196,9 @@ function loadDates() {
     success: function (data) {
       console.log(data);
       $.each(data, function (key, value) {
-        let dateOption = document.createElement("input");
-        let labelNode = document.createElement("label");
-        let br = document.createElement("br");
+        let dateOption = document.createElement("input")!;
+        let labelNode = document.createElement("label")!;
+        let br = document.createElement("br")!;
         let fieldToAppend = document.getElementById(value.appointment)!;
 
         dateOption.type = "checkbox";
@@ -282,12 +278,13 @@ $("#pimg").on("click", function () {
   getBigger();
 });
 
+//add new dates to form
 $("#dateplus").on("click", function () {
-  let newDate = document.createElement("input");
-  let date = document.querySelector(".datebox");
+  let newDate = document.createElement("input")!;
+  let date = document.querySelector(".datebox")!;
 
   newDate.type = "datetime-local";
-  newDate?.setAttribute("class", "form-control dates");
+  newDate.setAttribute("class", "form-control dates");
   newDate.id = "start";
 
   newDate!.required = true;

@@ -15,9 +15,8 @@
 */
 var restServer = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
 //document get ready
-document.addEventListener("DOMContentLoaded", function (event) {
+$(function () {
     loaddata();
-    loadDates();
     var form = document.getElementById("myform");
     form.style.display = "none";
     document.getElementById("mimg").style.display = "none";
@@ -29,7 +28,6 @@ window.onload = function () {
         var $panel = $(this).next(".panel");
         $panel.slideToggle();
     });
-    console.log($(".votingArea").children(".dateCheck"));
 };
 $("#submit").on("click", function () {
     // --- TITLE LOC EXP ---
@@ -61,9 +59,7 @@ $("#submit").on("click", function () {
 });
 // --- POSSIBLE DATES ---
 function sendDates() {
-    $(".datebox")
-        .children(".form-control.dates")
-        .each(function (index) {
+    $(".datebox").children(".form-control.dates").each(function (index) {
         var date = $(this).val();
         var title = $("#title").val();
         if (date !== "" && title !== "") {
@@ -91,9 +87,7 @@ function sendDates() {
 }
 // --- POSSIBLE DATES END ---
 function voteChecks() {
-    $(".votingArea")
-        .children(".dateCheck")
-        .each(function () {
+    $(".votingArea").children(".dateCheck").each(function () {
         if ($(this).prop("checked") == false) {
             console.log(this);
         }
@@ -111,27 +105,35 @@ function loaddata() {
         success: function (data) {
             console.log(data);
             $.each(data, function (key, value) {
+                //html nodes
                 var newItemBox = document.createElement("button");
-                newItemBox.setAttribute("class", "accordion");
-                newItemBox.innerHTML = value.title;
-                $(".wrapper-main").append(newItemBox);
                 var newDiv = document.createElement("div");
-                newDiv.setAttribute("class", "panel");
-                $(".wrapper-main").append(newDiv);
                 var newLocation = document.createElement("h2");
                 var newExpiryDate = document.createElement("h2");
                 var availableDates = document.createElement("h4");
+                var votingArea = document.createElement("div");
+                //accordion
+                newItemBox.setAttribute("class", "accordion");
+                newItemBox.setAttribute("id", value.expiry_date);
+                newItemBox.innerHTML = value.title;
+                $(".wrapper-main").append(newItemBox);
+                //panels in accordion
+                newDiv.setAttribute("class", "panel");
+                $(".wrapper-main").append(newDiv);
+                //set attributes on exp loc and available dates
                 newLocation.setAttribute("class", "location");
                 newExpiryDate.setAttribute("class", "exp_date");
                 newLocation.innerHTML = "Location: " + value.location;
                 newExpiryDate.innerHTML = "Expiry Date: " + value.expiry_date;
                 availableDates.innerHTML = "Available Dates: ";
+                //append new nodes
                 newDiv.append(newLocation);
                 newDiv.append(newExpiryDate);
                 newDiv.append(availableDates);
-                var votingArea = document.createElement("div");
+                //set voting area attributes
                 votingArea.setAttribute("id", value.title);
                 votingArea.setAttribute("class", "votingArea");
+                //append voting area div
                 newDiv.append(votingArea);
                 //append form to panel
                 var form = document.createElement("form");
@@ -158,6 +160,9 @@ function loaddata() {
                 form.append(br);
                 form.append(button);
             });
+            //loadDates function gets called after loaddata is done
+            //nested ajax call
+            loadDates();
         }
     });
 }
@@ -235,11 +240,12 @@ $("#mimg").on("click", function () {
 $("#pimg").on("click", function () {
     getBigger();
 });
+//add new dates to form
 $("#dateplus").on("click", function () {
     var newDate = document.createElement("input");
     var date = document.querySelector(".datebox");
     newDate.type = "datetime-local";
-    newDate === null || newDate === void 0 ? void 0 : newDate.setAttribute("class", "form-control dates");
+    newDate.setAttribute("class", "form-control dates");
     newDate.id = "start";
     newDate.required = true;
     date.append(newDate);
