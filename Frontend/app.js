@@ -16,19 +16,20 @@
 var restServer = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
 //document get ready
 document.addEventListener("DOMContentLoaded", function (event) {
-    loaddata();
-    loadDates();
     var form = document.getElementById("myform");
     form.style.display = "none";
     document.getElementById("mimg").style.display = "none";
 });
 // onload after everything has loaded
 window.onload = function () {
+    loaddata();
+    loadDates();
     $(".accordion").on("click", function () {
         $(this).toggleClass("active");
         var $panel = $(this).next(".panel");
         $panel.slideToggle();
     });
+    console.log($(".votingArea").children(".dateCheck"));
 };
 $("#submit").on("click", function () {
     // --- TITLE LOC EXP ---
@@ -60,7 +61,9 @@ $("#submit").on("click", function () {
 });
 // --- POSSIBLE DATES ---
 function sendDates() {
-    $(".datebox").children(".form-control.dates").each(function (index) {
+    $(".datebox")
+        .children(".form-control.dates")
+        .each(function (index) {
         var date = $(this).val();
         var title = $("#title").val();
         if (date !== "" && title !== "") {
@@ -107,15 +110,43 @@ function loaddata() {
                 $(".wrapper-main").append(newDiv);
                 var newLocation = document.createElement("h2");
                 var newExpiryDate = document.createElement("h2");
+                var availableDates = document.createElement("h4");
                 newLocation.setAttribute("class", "location");
                 newExpiryDate.setAttribute("class", "exp_date");
                 newLocation.innerHTML = "Location: " + value.location;
                 newExpiryDate.innerHTML = "Expiry Date: " + value.expiry_date;
+                availableDates.innerHTML = "Available Dates: ";
                 newDiv.append(newLocation);
                 newDiv.append(newExpiryDate);
+                newDiv.append(availableDates);
                 var votingArea = document.createElement("div");
                 votingArea.setAttribute("id", value.title);
+                votingArea.setAttribute("class", "votingArea");
                 newDiv.append(votingArea);
+                //append form to panel
+                var form = document.createElement("form");
+                var username = document.createElement("input");
+                var uid = document.createElement("label");
+                var kommentar = document.createElement("input");
+                var kommi = document.createElement("label");
+                var button = document.createElement("button");
+                var br = document.createElement("br");
+                username.setAttribute("type", "text");
+                username.setAttribute("class", "form-control");
+                uid.innerHTML = "Username:";
+                kommentar.setAttribute("type", "text-field");
+                kommentar.setAttribute("class", "form-control");
+                kommi.innerHTML = "Kommentar:";
+                button.setAttribute("type", "button");
+                button.setAttribute("class", "btn btn-success vote");
+                button.innerHTML = "Button";
+                newDiv.append(form);
+                form.append(uid);
+                form.append(username);
+                form.append(kommi);
+                form.append(kommentar);
+                form.append(br);
+                form.append(button);
             });
         }
     });
@@ -132,20 +163,22 @@ function loadDates() {
             console.log(data);
             $.each(data, function (key, value) {
                 var dateOption = document.createElement("input");
+                var labelNode = document.createElement("label");
+                var br = document.createElement("br");
+                var fieldToAppend = document.getElementById(value.appointment);
                 dateOption.type = "checkbox";
                 dateOption.value = value.date;
                 dateOption.id = value.date;
-                var labelNode = document.createElement("label");
+                dateOption.setAttribute("class", "dateCheck");
                 labelNode.htmlFor = value.date;
                 labelNode.innerHTML = value.date;
-                var fieldToAppend = document.getElementById(value.appointment);
-                fieldToAppend === null || fieldToAppend === void 0 ? void 0 : fieldToAppend.append(dateOption);
-                fieldToAppend === null || fieldToAppend === void 0 ? void 0 : fieldToAppend.append(labelNode);
+                fieldToAppend.append(dateOption);
+                fieldToAppend.append(labelNode);
+                fieldToAppend.append(br);
             });
         }
     });
 }
-;
 //---GET JSON DATA END---
 //---ANIMATION SECTION---
 function getBigger() {
