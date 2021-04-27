@@ -27,38 +27,38 @@ window.onload = function () {
         $(this).toggleClass("active");
         var $panel = $(this).next(".panel");
         $panel.slideToggle();
-    });
-};
-$(".vote").on("click", function () {
-    $(".votingArea")
-        .children(".dateCheck")
-        .each(function (index) {
-        var date;
-        if ($(this).prop("checked") == false) {
-            date = $(this).val();
-        }
-        var username = $(".uid").val();
-        var comment = $(".comment").val();
-        if (username !== "" && date !== "" && comment !== "") {
-            $.ajax({
-                type: "POST",
-                url: restServer,
-                data: {
-                    method: "insertAvailCB",
-                    param1: username,
-                    param2: date,
-                    param3: comment
-                },
-                success: function (response) {
-                    console.log("it worked");
+        $(".newbtn").on("click", function () {
+            $(".votingArea")
+                .children(".dateCheck")
+                .each(function (index) {
+                var date;
+                if ($(this).prop("checked") == true) {
+                    date = $(this).val();
+                }
+                var username = $(".uid").val();
+                var comment = $(".comment").val();
+                if (username !== "" && date !== "" && comment !== "") {
+                    $.ajax({
+                        type: "POST",
+                        url: restServer,
+                        data: {
+                            method: "insertAvailCB",
+                            param1: username,
+                            param2: date,
+                            param3: comment
+                        },
+                        success: function (response) {
+                            console.log("it worked");
+                        }
+                    });
+                }
+                else {
+                    console.log("empty datefield");
                 }
             });
-        }
-        else {
-            console.log("empty datefield");
-        }
+        });
     });
-});
+};
 $("#submit").on("click", function () {
     // --- TITLE LOC EXP ---
     var title = $("#title").val();
@@ -108,7 +108,7 @@ function sendDates() {
                     console.log("Data inserted.");
                     getSmaller();
                     setTimeout(function () {
-                        location.reload();
+                        //location.reload();
                     }, 800);
                 }
             });
@@ -128,7 +128,6 @@ function voteChecks() {
         }
     });
 }
-// co;nsole.log( $(".votingArea").children(".dateCheck"))
 // ---Settings: GET JSON DATA FROM DATABASE---
 function loaddata() {
     $.ajax({
@@ -188,7 +187,8 @@ function loaddata() {
                 kommentar.setAttribute("class", "form-control comment");
                 kommi.innerHTML = "Kommentar:";
                 button.setAttribute("type", "submit");
-                button.setAttribute("class", "btn btn-success vote");
+                form.setAttribute("onsubmit", "return false;");
+                button.setAttribute("class", "newbtn");
                 button.innerHTML = "Send";
                 //check if date is expired
                 if (Date.parse(value.expiry_date) - Date.parse(new Date().toString()) <
