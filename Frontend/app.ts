@@ -31,44 +31,69 @@ $(function () {
   let form = document.getElementById("myform")! as HTMLElement;
   form!.style.display = "none";
   document.getElementById("mimg")!.style.display = "none";
+
+
+
+  
 });
+
 // onload after everything has loaded
 window.onload = function () {
   $(".accordion").on("click", function () {
     $(this).toggleClass("active");
     var $panel = $(this).next(".panel");
     $panel.slideToggle();
+  })
 
-    $(".newbtn").on("click", function () {
-        $(".votingArea")
-          .children(".dateCheck")
-          .each(function (index) {
-            let date;
-            if ($(this).prop("checked") == true) {
-              date = $(this).val();
-            }
-            let username = $(".uid").val();
-            let comment = $(".comment").val();
-            if (username !== "" && date !== "" && comment !== "") {
-              $.ajax({
-                type: "POST",
-                url: restServer,
-                data: {
-                  method: "insertAvailCB",
-                  param1: username,
-                  param2: date,
-                  param3: comment,
-                },
-                success: function (response) {
-                  console.log("it worked");
-                },
-              });
-            } else {
-              console.log("empty datefield");
-            }
-          });
+
+
+  $(".btn.btn-success").on("click", function (id) {
+    
+    let date:string;
+    let username:string;
+    let comment:string;
+    
+      $(".form-control.uid").each(function() {
+        if($(this).val != null){
+        username =  $(this).val()  as string;
+        console.log(username);
+        }
+        });     
+      
+      $(".form-control.comment").each(function(){
+        if($(this).val != null){
+        comment= ""+$(this).val()+"" as string;
+        
+        }
       });
-    });
+    
+      $(".votingArea").children("input").each(function (index) {
+        if ($(this).prop("checked") == true && $(this).val()!.toString() !== "0000-00-00 00:00:00") {
+          date = $(this).val() as string;
+      //  if (username !== "" && date !== "" && comment !== "") {
+      $.ajax({
+        type: "POST",
+        url: restServer,
+        data: {
+          method: "insertAvailCB",
+          param1: username,
+          param2: date,
+          param3: comment,
+        },
+        success: function (response) {
+         location.reload();
+         console.log(username);
+        },
+      });
+      
+    
+    } //else {
+    //console.log("empty datefield");
+    //  }
+      
+  });
+
+});
 
 };
 
@@ -122,7 +147,7 @@ function sendDates() {
             console.log("Data inserted.");
             getSmaller();
             setTimeout(function () {
-              //location.reload();
+              location.reload();
             }, 800);
           },
         });
@@ -132,16 +157,6 @@ function sendDates() {
     });
 }
 // --- POSSIBLE DATES END ---
-
-function voteChecks() {
-  $(".votingArea")
-    .children(".dateCheck")
-    .each(function () {
-      if ($(this).prop("checked") == false) {
-        //  console.log(this);
-      }
-    });
-}
 
 // ---Settings: GET JSON DATA FROM DATABASE---
 function loaddata() {
@@ -199,19 +214,21 @@ function loaddata() {
         let button = document.createElement("button")!;
         let br = document.createElement("br")!;
 
+        username.required;
         username.setAttribute("type", "text");
         username.setAttribute("class", "form-control uid");
 
         uid.innerHTML = "Username:";
 
-        kommentar!.setAttribute("type", "text-field");
+        kommentar.required;
+        kommentar!.setAttribute("type", "text");
         kommentar!.setAttribute("class", "form-control comment");
 
         kommi.innerHTML = "Kommentar:";
 
         button.setAttribute("type", "submit");
         form.setAttribute("onsubmit", "return false;");
-        button.setAttribute("class", "newbtn");
+        button.setAttribute("class", "btn btn-success");
         button.innerHTML = "Send";
 
         //check if date is expired
@@ -233,6 +250,13 @@ function loaddata() {
         form.append(kommentar);
         form.append(br);
         form.append(button);
+        console.log;
+
+        function getID(uniq: number | string) {
+          uniq = "id" + new Date().getTime();
+
+          return username.setAttribute("id", uniq);
+        }
       });
 
       //loadDates function gets called after loaddata is done
@@ -262,6 +286,7 @@ function loadDates() {
         dateOption.value = value.date;
         dateOption.id = value.date;
         dateOption.setAttribute("class", "dateCheck");
+        dateOption.required;
 
         labelNode.htmlFor = value.date;
         labelNode.innerHTML = value.date;

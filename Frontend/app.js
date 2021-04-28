@@ -1,3 +1,4 @@
+"use strict";
 /*
    Achtung - wichtige Hinweise:
    -----------------------------------------------------------------------------
@@ -27,35 +28,43 @@ window.onload = function () {
         $(this).toggleClass("active");
         var $panel = $(this).next(".panel");
         $panel.slideToggle();
-        $(".newbtn").on("click", function () {
-            $(".votingArea")
-                .children(".dateCheck")
-                .each(function (index) {
-                var date;
-                if ($(this).prop("checked") == true) {
-                    date = $(this).val();
-                }
-                var username = $(".uid").val();
-                var comment = $(".comment").val();
-                if (username !== "" && date !== "" && comment !== "") {
-                    $.ajax({
-                        type: "POST",
-                        url: restServer,
-                        data: {
-                            method: "insertAvailCB",
-                            param1: username,
-                            param2: date,
-                            param3: comment
-                        },
-                        success: function (response) {
-                            console.log("it worked");
-                        }
-                    });
-                }
-                else {
-                    console.log("empty datefield");
-                }
-            });
+    });
+    $(".btn.btn-success").on("click", function (id) {
+        var date;
+        var username;
+        var comment;
+        $(".form-control.uid").each(function () {
+            if ($(this).val != null) {
+                username = $(this).val();
+                console.log(username);
+            }
+        });
+        $(".form-control.comment").each(function () {
+            if ($(this).val != null) {
+                comment = "" + $(this).val() + "";
+            }
+        });
+        $(".votingArea").children("input").each(function (index) {
+            if ($(this).prop("checked") == true && $(this).val().toString() !== "0000-00-00 00:00:00") {
+                date = $(this).val();
+                //  if (username !== "" && date !== "" && comment !== "") {
+                $.ajax({
+                    type: "POST",
+                    url: restServer,
+                    data: {
+                        method: "insertAvailCB",
+                        param1: username,
+                        param2: date,
+                        param3: comment,
+                    },
+                    success: function (response) {
+                        location.reload();
+                        console.log(username);
+                    },
+                });
+            } //else {
+            //console.log("empty datefield");
+            //  }
         });
     });
 };
@@ -73,13 +82,13 @@ $("#submit").on("click", function () {
                 method: "insertAppointment",
                 param1: title,
                 param2: location,
-                param3: exp
+                param3: exp,
             },
             success: function (response) {
                 sendDates();
                 getSmaller();
                 console.log("Data inserted.");
-            }
+            },
         });
     }
     else {
@@ -102,15 +111,15 @@ function sendDates() {
                 data: {
                     method: "insertDates",
                     param1: date,
-                    param2: title
+                    param2: title,
                 },
                 success: function (response) {
                     console.log("Data inserted.");
                     getSmaller();
                     setTimeout(function () {
-                        //location.reload();
+                        location.reload();
                     }, 800);
-                }
+                },
             });
         }
         else {
@@ -119,15 +128,6 @@ function sendDates() {
     });
 }
 // --- POSSIBLE DATES END ---
-function voteChecks() {
-    $(".votingArea")
-        .children(".dateCheck")
-        .each(function () {
-        if ($(this).prop("checked") == false) {
-            //  console.log(this);
-        }
-    });
-}
 // ---Settings: GET JSON DATA FROM DATABASE---
 function loaddata() {
     $.ajax({
@@ -180,15 +180,17 @@ function loaddata() {
                 var kommi = document.createElement("label");
                 var button = document.createElement("button");
                 var br = document.createElement("br");
+                username.required;
                 username.setAttribute("type", "text");
                 username.setAttribute("class", "form-control uid");
                 uid.innerHTML = "Username:";
-                kommentar.setAttribute("type", "text-field");
+                kommentar.required;
+                kommentar.setAttribute("type", "text");
                 kommentar.setAttribute("class", "form-control comment");
                 kommi.innerHTML = "Kommentar:";
                 button.setAttribute("type", "submit");
                 form.setAttribute("onsubmit", "return false;");
-                button.setAttribute("class", "newbtn");
+                button.setAttribute("class", "btn btn-success");
                 button.innerHTML = "Send";
                 //check if date is expired
                 if (Date.parse(value.expiry_date) - Date.parse(new Date().toString()) <
@@ -206,11 +208,16 @@ function loaddata() {
                 form.append(kommentar);
                 form.append(br);
                 form.append(button);
+                console.log;
+                function getID(uniq) {
+                    uniq = "id" + new Date().getTime();
+                    return username.setAttribute("id", uniq);
+                }
             });
             //loadDates function gets called after loaddata is done
             //nested ajax call
             loadDates();
-        }
+        },
     });
 }
 //dates loaded in
@@ -232,13 +239,14 @@ function loadDates() {
                 dateOption.value = value.date;
                 dateOption.id = value.date;
                 dateOption.setAttribute("class", "dateCheck");
+                dateOption.required;
                 labelNode.htmlFor = value.date;
                 labelNode.innerHTML = value.date;
                 fieldToAppend.append(dateOption);
                 fieldToAppend.append(labelNode);
                 fieldToAppend.append(br);
             });
-        }
+        },
     });
 }
 //---GET JSON DATA END---
@@ -246,7 +254,7 @@ function loadDates() {
 function getBigger() {
     $("#newappointment").animate({
         height: "330px",
-        width: "35rem"
+        width: "35rem",
     }, 500, function () {
         //console.log("animation complete");
         $("#newappointment").css("height", "100%");
@@ -272,7 +280,7 @@ function getBigger() {
 function getSmaller() {
     $("#newappointment").animate({
         height: "-330",
-        width: "-600"
+        width: "-600",
     }, 500, function () {
         var newA = document.getElementById("newappointment");
         var pimg = document.getElementById("pimg");
