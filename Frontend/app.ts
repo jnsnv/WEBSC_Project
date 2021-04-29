@@ -14,16 +14,8 @@
              Header set Access-Control-Allow-Origin "*"
 */
 
-interface Data {
-  title: string;
-  user: string;
-  location: string;
-  date: string;
-  time: string;
-  expiry_date: string;
-}
-let restServer: string =
-  "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
+
+let restServer: string = "http://localhost:80/WS2021/ueX/WEBSC_Project/WEBSC_Project/Backend/serviceHandler.php";
 
 //document get ready
 $(function () {
@@ -105,7 +97,6 @@ function sendVotes(title: string){
   let userName = $("#id-user-"+title);
   let comment = $("#id-comment-"+title);
   console.log(userName);
-
   let appointment = title;
   $("#"+title).children(".dateCheck").each(function(){
     let checkbox = this! as HTMLInputElement;
@@ -132,7 +123,6 @@ function sendVotes(title: string){
       });
     }
   });
-
 }
 
 
