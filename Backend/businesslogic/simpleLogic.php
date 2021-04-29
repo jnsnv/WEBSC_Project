@@ -11,7 +11,7 @@ class SimpleLogic
         $this->dh = new DataHandler();
     }
 
-    function handleRequest($method, $param1, $param2, $param3)
+    function handleRequest($method, $param1, $param2, $param3, $param4)
     {
         switch ($method) {
 
@@ -28,7 +28,7 @@ class SimpleLogic
                 $res = $this->dh->insertDates($param1, $param2);
                 break;
             case "insertAvailCB":
-                $res = $this->dh->insertAvailCB($param1, $param2, $param3); 
+                $res = $this->dh->insertAvailCB($param1, $param2, $param3, $param4); 
                 break;
             default:
                 $res = null;

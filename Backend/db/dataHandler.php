@@ -77,11 +77,11 @@ class DataHandler
         return $result;
     }
 //
-    public function insertAvailCB($username, $date, $comment){
-        $sql = "INSERT INTO users (username, date, comment) VALUE (?, ?, ?);";
+    public function insertAvailCB($username, $date, $comment, $appointment){
+        $sql = "INSERT INTO users (username, date, comment, appointment_name) VALUE (?, ?, ?, ?);";
         $connection = $this->connect();
         $stmt = $connection->prepare($sql);
-        $stmt->bind_param("sss", $username, $date, $comment);
+        $stmt->bind_param("ssss", $username, $date, $comment, $appointment);
         $result = $stmt->execute();
         $stmt->close();
 

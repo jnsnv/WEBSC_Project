@@ -31,10 +31,6 @@ $(function () {
   let form = document.getElementById("myform")! as HTMLElement;
   form!.style.display = "none";
   document.getElementById("mimg")!.style.display = "none";
-
-
-
-  
 });
 
 // onload after everything has loaded
@@ -44,57 +40,6 @@ window.onload = function () {
     var $panel = $(this).next(".panel");
     $panel.slideToggle();
   })
-
-
-
-  $(".btn.btn-success").on("click", function (id) {
-    
-    let date:string;
-    let username:string;
-    let comment:string;
-    
-      $(".form-control.uid").each(function() {
-        if($(this).val != null){
-        username =  $(this).val()  as string;
-        console.log(username);
-        }
-        });     
-      
-      $(".form-control.comment").each(function(){
-        if($(this).val != null){
-        comment= ""+$(this).val()+"" as string;
-        
-        }
-      });
-    
-      $(".votingArea").children("input").each(function (index) {
-        if ($(this).prop("checked") == true && $(this).val()!.toString() !== "0000-00-00 00:00:00") {
-          date = $(this).val() as string;
-      //  if (username !== "" && date !== "" && comment !== "") {
-      $.ajax({
-        type: "POST",
-        url: restServer,
-        data: {
-          method: "insertAvailCB",
-          param1: username,
-          param2: date,
-          param3: comment,
-        },
-        success: function (response) {
-         location.reload();
-         console.log(username);
-        },
-      });
-      
-    
-    } //else {
-    //console.log("empty datefield");
-    //  }
-      
-  });
-
-});
-
 };
 
 $("#submit").on("click", function () {
@@ -129,9 +74,7 @@ $("#submit").on("click", function () {
 
 // --- POSSIBLE DATES ---
 function sendDates() {
-  $(".datebox")
-    .children(".form-control.dates")
-    .each(function (index) {
+  $(".datebox").children(".form-control.dates").each(function (index) {
       let date: string = $(this).val()! as string;
       let title: string = $("#title").val() as string;
       if (date !== "" && title !== "") {
@@ -157,6 +100,41 @@ function sendDates() {
     });
 }
 // --- POSSIBLE DATES END ---
+
+function sendVotes(title: string){
+  let userName = $("#id-user-"+title);
+  let comment = $("#id-comment-"+title);
+  console.log(userName);
+
+  let appointment = title;
+  $("#"+title).children(".dateCheck").each(function(){
+    let checkbox = this! as HTMLInputElement;
+    if(checkbox.checked == false)
+    {
+      console.log("Not checked. Nothing inserted.");
+    }
+    else
+    {
+      let date = checkbox.value;
+      $.ajax({
+        type: "POST",
+        url: restServer,
+        data: {
+          method: "insertAvailCB",
+          param1: userName,
+          param2: date,
+          param3: comment,
+          param4: appointment,
+        },
+        success: function (response) {
+          console.log("Data inserted.");
+        },
+      });
+    }
+  });
+
+}
+
 
 // ---Settings: GET JSON DATA FROM DATABASE---
 function loaddata() {
@@ -207,28 +185,31 @@ function loaddata() {
 
         //append form to panel
         let form = document.createElement("form")!;
-        let username = document.createElement("input")!;
+        let username = document.createElement("input")! as HTMLInputElement;
         let uid = document.createElement("label")!;
-        let kommentar = document.createElement("input")!;
+        let kommentar = document.createElement("input")! as HTMLInputElement;
         let kommi = document.createElement("label")!;
         let button = document.createElement("button")!;
         let br = document.createElement("br")!;
 
         username.required;
         username.setAttribute("type", "text");
-        username.setAttribute("class", "form-control uid");
+        username.setAttribute("class", "form-control");
+        username.setAttribute("id", "id-user-"+value.title.replace(/ /g,''));
 
         uid.innerHTML = "Username:";
 
         kommentar.required;
-        kommentar!.setAttribute("type", "text");
-        kommentar!.setAttribute("class", "form-control comment");
+        kommentar.setAttribute("type", "text");
+        kommentar.setAttribute("class", "form-control");
+        kommentar.setAttribute("id", "id-comment-"+value.title.replace(/ /g,''));
 
         kommi.innerHTML = "Kommentar:";
 
         button.setAttribute("type", "submit");
         form.setAttribute("onsubmit", "return false;");
         button.setAttribute("class", "btn btn-success");
+        button.setAttribute("onclick", "sendVotes("+"\""+value.title.replace(/ /g,'')+"\")");
         button.innerHTML = "Send";
 
         //check if date is expired
@@ -241,6 +222,12 @@ function loaddata() {
           button.disabled = true;
           button.setAttribute("class", "btn btn-danger");
           button.innerHTML = "Disabled";
+
+          username.disabled = true;
+          username.innerHTML = "Disabled";
+
+          kommentar.disabled = true;
+          kommentar.innerHTML = "Disabled";
         }
 
         newDiv.append(form);
@@ -250,13 +237,7 @@ function loaddata() {
         form.append(kommentar);
         form.append(br);
         form.append(button);
-        console.log;
 
-        function getID(uniq: number | string) {
-          uniq = "id" + new Date().getTime();
-
-          return username.setAttribute("id", uniq);
-        }
       });
 
       //loadDates function gets called after loaddata is done
@@ -265,6 +246,7 @@ function loaddata() {
     },
   });
 }
+
 
 //dates loaded in
 function loadDates() {
@@ -277,7 +259,7 @@ function loadDates() {
     success: function (data) {
       //console.log(data);
       $.each(data, function (key, value) {
-        let dateOption = document.createElement("input")!;
+        let dateOption = document.createElement("input")! as HTMLInputElement;
         let labelNode = document.createElement("label")!;
         let br = document.createElement("br")!;
         let fieldToAppend = document.getElementById(value.appointment)!;
@@ -286,7 +268,6 @@ function loadDates() {
         dateOption.value = value.date;
         dateOption.id = value.date;
         dateOption.setAttribute("class", "dateCheck");
-        dateOption.required;
 
         labelNode.htmlFor = value.date;
         labelNode.innerHTML = value.date;

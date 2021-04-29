@@ -1,4 +1,3 @@
-"use strict";
 /*
    Achtung - wichtige Hinweise:
    -----------------------------------------------------------------------------
@@ -29,44 +28,6 @@ window.onload = function () {
         var $panel = $(this).next(".panel");
         $panel.slideToggle();
     });
-    $(".btn.btn-success").on("click", function (id) {
-        var date;
-        var username;
-        var comment;
-        $(".form-control.uid").each(function () {
-            if ($(this).val != null) {
-                username = $(this).val();
-                console.log(username);
-            }
-        });
-        $(".form-control.comment").each(function () {
-            if ($(this).val != null) {
-                comment = "" + $(this).val() + "";
-            }
-        });
-        $(".votingArea").children("input").each(function (index) {
-            if ($(this).prop("checked") == true && $(this).val().toString() !== "0000-00-00 00:00:00") {
-                date = $(this).val();
-                //  if (username !== "" && date !== "" && comment !== "") {
-                $.ajax({
-                    type: "POST",
-                    url: restServer,
-                    data: {
-                        method: "insertAvailCB",
-                        param1: username,
-                        param2: date,
-                        param3: comment,
-                    },
-                    success: function (response) {
-                        location.reload();
-                        console.log(username);
-                    },
-                });
-            } //else {
-            //console.log("empty datefield");
-            //  }
-        });
-    });
 };
 $("#submit").on("click", function () {
     // --- TITLE LOC EXP ---
@@ -82,13 +43,13 @@ $("#submit").on("click", function () {
                 method: "insertAppointment",
                 param1: title,
                 param2: location,
-                param3: exp,
+                param3: exp
             },
             success: function (response) {
                 sendDates();
                 getSmaller();
                 console.log("Data inserted.");
-            },
+            }
         });
     }
     else {
@@ -99,9 +60,7 @@ $("#submit").on("click", function () {
 //insert checkboxes
 // --- POSSIBLE DATES ---
 function sendDates() {
-    $(".datebox")
-        .children(".form-control.dates")
-        .each(function (index) {
+    $(".datebox").children(".form-control.dates").each(function (index) {
         var date = $(this).val();
         var title = $("#title").val();
         if (date !== "" && title !== "") {
@@ -111,7 +70,7 @@ function sendDates() {
                 data: {
                     method: "insertDates",
                     param1: date,
-                    param2: title,
+                    param2: title
                 },
                 success: function (response) {
                     console.log("Data inserted.");
@@ -119,7 +78,7 @@ function sendDates() {
                     setTimeout(function () {
                         location.reload();
                     }, 800);
-                },
+                }
             });
         }
         else {
@@ -128,6 +87,35 @@ function sendDates() {
     });
 }
 // --- POSSIBLE DATES END ---
+function sendVotes(title) {
+    var userName = $("#id-user-" + title);
+    var comment = $("#id-comment-" + title);
+    console.log(userName);
+    var appointment = title;
+    $("#" + title).children(".dateCheck").each(function () {
+        var checkbox = this;
+        if (checkbox.checked == false) {
+            console.log("Not checked. Nothing inserted.");
+        }
+        else {
+            var date = checkbox.value;
+            $.ajax({
+                type: "POST",
+                url: restServer,
+                data: {
+                    method: "insertAvailCB",
+                    param1: userName,
+                    param2: date,
+                    param3: comment,
+                    param4: appointment
+                },
+                success: function (response) {
+                    console.log("Data inserted.");
+                }
+            });
+        }
+    });
+}
 // ---Settings: GET JSON DATA FROM DATABASE---
 function loaddata() {
     $.ajax({
@@ -182,15 +170,18 @@ function loaddata() {
                 var br = document.createElement("br");
                 username.required;
                 username.setAttribute("type", "text");
-                username.setAttribute("class", "form-control uid");
+                username.setAttribute("class", "form-control");
+                username.setAttribute("id", "id-user-" + value.title.replace(/ /g, ''));
                 uid.innerHTML = "Username:";
                 kommentar.required;
                 kommentar.setAttribute("type", "text");
-                kommentar.setAttribute("class", "form-control comment");
+                kommentar.setAttribute("class", "form-control");
+                kommentar.setAttribute("id", "id-comment-" + value.title.replace(/ /g, ''));
                 kommi.innerHTML = "Kommentar:";
                 button.setAttribute("type", "submit");
                 form.setAttribute("onsubmit", "return false;");
                 button.setAttribute("class", "btn btn-success");
+                button.setAttribute("onclick", "sendVotes(" + "\"" + value.title.replace(/ /g, '') + "\")");
                 button.innerHTML = "Send";
                 //check if date is expired
                 if (Date.parse(value.expiry_date) - Date.parse(new Date().toString()) <
@@ -200,6 +191,10 @@ function loaddata() {
                     button.disabled = true;
                     button.setAttribute("class", "btn btn-danger");
                     button.innerHTML = "Disabled";
+                    username.disabled = true;
+                    username.innerHTML = "Disabled";
+                    kommentar.disabled = true;
+                    kommentar.innerHTML = "Disabled";
                 }
                 newDiv.append(form);
                 form.append(uid);
@@ -208,16 +203,11 @@ function loaddata() {
                 form.append(kommentar);
                 form.append(br);
                 form.append(button);
-                console.log;
-                function getID(uniq) {
-                    uniq = "id" + new Date().getTime();
-                    return username.setAttribute("id", uniq);
-                }
             });
             //loadDates function gets called after loaddata is done
             //nested ajax call
             loadDates();
-        },
+        }
     });
 }
 //dates loaded in
@@ -239,14 +229,13 @@ function loadDates() {
                 dateOption.value = value.date;
                 dateOption.id = value.date;
                 dateOption.setAttribute("class", "dateCheck");
-                dateOption.required;
                 labelNode.htmlFor = value.date;
                 labelNode.innerHTML = value.date;
                 fieldToAppend.append(dateOption);
                 fieldToAppend.append(labelNode);
                 fieldToAppend.append(br);
             });
-        },
+        }
     });
 }
 //---GET JSON DATA END---
@@ -254,7 +243,7 @@ function loadDates() {
 function getBigger() {
     $("#newappointment").animate({
         height: "330px",
-        width: "35rem",
+        width: "35rem"
     }, 500, function () {
         //console.log("animation complete");
         $("#newappointment").css("height", "100%");
@@ -280,7 +269,7 @@ function getBigger() {
 function getSmaller() {
     $("#newappointment").animate({
         height: "-330",
-        width: "-600",
+        width: "-600"
     }, 500, function () {
         var newA = document.getElementById("newappointment");
         var pimg = document.getElementById("pimg");
